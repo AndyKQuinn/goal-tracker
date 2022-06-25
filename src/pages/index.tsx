@@ -20,14 +20,18 @@ const IndexPage: NextPageWithLayout = () => {
 
   if (user) {
     return (
-      <div className="flex flex-col">
-        <Link href="/dashboard">
-          Dashboard
-        </Link>
-        <div />
-        <Link href="/api/auth/logout">Log Out</Link>
-        <div />
-        Hello, {user.name}
+      <div>
+        <ul>
+          <li>
+            <Link href="/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link href="/api/auth/logout">Log Out</Link>
+          </li>
+        </ul>
+        <h2 className="text-2xl underline">
+          Hello, {user.name}
+        </h2>
       </div>
     )
   }
