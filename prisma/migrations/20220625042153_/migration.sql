@@ -1,11 +1,22 @@
 -- CreateTable
+CREATE TABLE "Post" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "text" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Post_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "Goal" (
     "id" TEXT NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "active" BOOLEAN NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Goal_pkey" PRIMARY KEY ("id")
 );
@@ -19,7 +30,7 @@ CREATE TABLE "Task" (
     "quantity" INTEGER NOT NULL,
     "goalID" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedat" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "datesCompleted" TIMESTAMP(3)[],
 
     CONSTRAINT "Task_pkey" PRIMARY KEY ("id")

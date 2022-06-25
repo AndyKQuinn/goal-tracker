@@ -24,10 +24,9 @@ const IndexPage: NextPageWithLayout = () => {
         <Link href="/dashboard">
           Dashboard
         </Link>
-        <div>
-          {/* <CreateGoal /> */}
-        </div>
+        <div />
         <Link href="/api/auth/logout">Log Out</Link>
+        <div />
         Hello, {user.name}
       </div>
     )
@@ -38,11 +37,7 @@ const IndexPage: NextPageWithLayout = () => {
       <div>
         Welcome to my thing that will eventually be a better thing
       </div>
-      <div>
-        <button>
-          <Link href="/api/auth/login">Login</Link>
-        </button>
-      </div>
+      <Link href="/api/auth/login">Login</Link>
     </>
   )
 };
