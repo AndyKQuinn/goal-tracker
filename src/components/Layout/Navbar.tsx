@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from 'next/link';
 import { Transition } from "@headlessui/react";
 
 function Nav() {
@@ -10,47 +11,40 @@ function Nav() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
-                <img
-                  className="w-8 h-8"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                  alt="Workflow"
-                />
+                <Link href="/">
+                  <img
+                    className="w-8 h-8"
+                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                    alt="Brand Image"
+                  />
+                </Link>
               </div>
               <div className="hidden md:block">
                 <div className="flex items-baseline ml-10 space-x-4">
                   <a
-                    href="#"
+                    href="/"
                     className="px-3 py-2 text-sm font-medium text-white rounded-md hover:bg-gray-700"
                   >
                     Dashboard
                   </a>
 
                   <a
-                    href="#"
+                    href="/track"
                     className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
-                    Team
+                    Track
                   </a>
-
                   <a
-                    href="#"
+                    href="/profile"
                     className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
-                    Projects
+                    Profile
                   </a>
-
                   <a
-                    href="#"
+                    href="/api/auth/logout"
                     className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
-                    Calendar
-                  </a>
-
-                  <a
-                    href="#"
-                    className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                  >
-                    Reports
+                    Log Out
                   </a>
                 </div>
               </div>
@@ -115,17 +109,31 @@ function Nav() {
             <div className="md:hidden" id="mobile-menu">
               <div ref={ref} className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a
-                  href="#"
+                  href="/"
                   className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
+                >
+                  Dashboard
+                </a>
+
+                <a
+                  href="/track"
+                  className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                 >
                   Track
                 </a>
 
                 <a
-                  href="#"
+                  href="/profile"
                   className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                 >
-                  Dashboard
+                  Profile
+                </a>
+
+                <a
+                  href="/api/auth/logout"
+                  className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+                >
+                  Log Out
                 </a>
               </div>
             </div>
@@ -133,20 +141,18 @@ function Nav() {
         </Transition>
       </nav>
 
-      <header className="bg-white shadow">
+      {/* <header className="bg-white shadow">
         <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
         </div>
       </header>
       <main>
         <div className="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          {/* <!-- Replace with your content --> */}
           <div className="px-4 py-6 sm:px-0">
             <div className="border-4 border-gray-200 border-dashed rounded-lg h-96"></div>
           </div>
-          {/* <!-- /End replace --> */}
         </div>
-      </main>
+      </main> */}
     </div>
   );
 }

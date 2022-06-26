@@ -19,7 +19,9 @@ const GoalViewPage: NextPageWithLayout = () => {
   if (goalQuery.status !== 'success') {
     return <>Loading...</>;
   }
+
   const { data } = goalQuery;
+
   return (
     <>
       <h1>{data.title}</h1>
@@ -28,7 +30,7 @@ const GoalViewPage: NextPageWithLayout = () => {
       <p>{data.description}</p>
 
       <h2>Raw data:</h2>
-      <pre>{JSON.stringify(data, null, 4)}</pre>
+      <div>{JSON.stringify(data, null, 4)}</div>
     </>
   );
 };

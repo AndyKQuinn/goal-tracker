@@ -1,10 +1,13 @@
-import { useState, useEffect } from 'react';
+import { 
+  // useState,
+  useEffect
+} from 'react';
 import { trpc } from '../../utils/trpc';
 import { NextPageWithLayout } from '../_app';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
-const GoalsList = () => {
+export const GoalsList: NextPageWithLayout = () => {
   const goalsQuery = trpc.useQuery(['goal.all']);
   const utils = trpc.useContext();
 
@@ -16,27 +19,21 @@ const GoalsList = () => {
   }, [goalsQuery.data, utils]);
 
   return (
-    <>
-      <p>
-        <a href="https://trpc.io/docs">Docs</a>
-      </p>
-      <h2>
-        Goals
-        {goalsQuery.status === 'loading' && '(loading)'}
-      </h2>
+    <div>
+      {goalsQuery.status === 'loading' && '(loading)'}
       {goalsQuery.data?.map((item) => (
-        <article key={item.id}>
-          <h3>{item.title}</h3>
+        <article className='p-1' key={item.id}>
+          <h3 className='p-1 text-center text-white bg-blue-400'>{item.title}</h3>
           <Link href={`/goal/${item.id}`}>
-            <a>View more</a>
+            <div className="p-1 text-xs text-center text-blue-800">View more</div>
           </Link>
         </article>
       ))}
-    </>
+    </div>
   )
 }
 
-const GoalsPage: NextPageWithLayout = () => {
+export const GoalForm: NextPageWithLayout = () => {
   const utils = trpc.useContext();
   const addGoal = trpc.useMutation('goal.add', {
     async onSuccess() {
@@ -44,7 +41,7 @@ const GoalsPage: NextPageWithLayout = () => {
     },
   });
 
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data: any) => {
     const input = data
@@ -52,26 +49,28 @@ const GoalsPage: NextPageWithLayout = () => {
 
     try {
       await addGoal.mutateAsync(input)
+      reset()
     } catch {(error: any) => console.log(error)}
   }
 
   return (
-    <>
-      <GoalsList />
-      <hr />
+    <div className="p-2">
+      Add Goal
       <form onSubmit={handleSubmit(onSubmit)}>
-        <input {...register("title")} placeholder="Title" name="title" />
-        <input {...register("description")} placeholder="Description" name="description" />
-        <input type="submit" />
+        <div>
+          <input {...register("title")} placeholder="Title" name="title" />
+        </div>
+        <div>
+          <input {...register("description")} placeholder="Description" name="description" />
+        </div>
+        <input className="bg-gray-100 btn" type="submit" />
         {addGoal.error && (
           <p style={{ color: 'red' }}>{addGoal.error.message}</p>
         )}
       </form>
-    </>
+    </div>
   );
 };
-
-export default GoalsPage;
 
 /**
  * If you want to statically render this page
