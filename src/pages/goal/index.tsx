@@ -1,13 +1,10 @@
-import {
-  // useState,
-  useEffect,
-} from 'react';
+import { useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
-import { NextPageWithLayout } from '../_app';
+// import { NextPageWithLayout } from '../_app';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 
-export const GoalsList: NextPageWithLayout = () => {
+export const GoalsList = () => {
   const goalsQuery = trpc.useQuery(['goal.all']);
   const utils = trpc.useContext();
 
@@ -37,7 +34,7 @@ export const GoalsList: NextPageWithLayout = () => {
   );
 };
 
-const GoalForm: NextPageWithLayout = () => {
+const GoalForm = () => {
   const utils = trpc.useContext();
   const addGoal = trpc.useMutation('goal.add', {
     async onSuccess() {
@@ -64,11 +61,11 @@ const GoalForm: NextPageWithLayout = () => {
       Add Goal
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <input {...register("'title'")} placeholder="Title" name="title" />
+          <input {...register('title')} placeholder="Title" name="title" />
         </div>
         <div>
           <input
-            {...register("'description'")}
+            {...register('description')}
             placeholder="Description"
             name="description"
           />
