@@ -1,4 +1,4 @@
-import { GoalsList, GoalForm } from '../goal'
+import GoalForm, { GoalsList } from '../goal';
 
 export default function Track() {
   return (
@@ -6,5 +6,5 @@ export default function Track() {
       <GoalsList />
       <GoalForm />
     </div>
-  )
+  );
 }

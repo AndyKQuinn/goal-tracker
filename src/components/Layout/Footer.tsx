@@ -1,11 +1,7 @@
-import React, { useState } from "react";
+import React from 'react';
 
 function Footer() {
-  return (
-    <div>
-      Andy Quinn, 2022
-    </div>
-  );
+  return <div>Andy Quinn, 2022</div>;
 }
 
 export default Footer;

@@ -9,7 +9,7 @@ import superjson from 'superjson';
 import { DefaultLayout } from '~/components/Layout/DefaultLayout';
 import { AppRouter } from '~/server/routers/_app';
 import { SSRContext } from '~/utils/trpc';
-import { UserProvider } from "@auth0/nextjs-auth0";
+import { UserProvider } from '@auth0/nextjs-auth0';
 import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
 
@@ -28,7 +28,7 @@ const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
   return getLayout(
     <UserProvider>
       <Component {...pageProps} />
-    </UserProvider>
+    </UserProvider>,
   );
 }) as AppType;
 

@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Transition } from "@headlessui/react";
+import { Transition } from '@headlessui/react';
 
 function Nav() {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,6 @@
-import { 
+import {
   // useState,
-  useEffect
+  useEffect,
 } from 'react';
 import { trpc } from '../../utils/trpc';
 import { NextPageWithLayout } from '../_app';
@@ -11,7 +11,7 @@ export const GoalsList: NextPageWithLayout = () => {
   const goalsQuery = trpc.useQuery(['goal.all']);
   const utils = trpc.useContext();
 
-   // prefetch for instant navigation
+  // prefetch for instant navigation
   useEffect(() => {
     for (const { id } of goalsQuery.data ?? []) {
       utils.prefetchQuery(['goal.byId', { id }]);
@@ -22,18 +22,22 @@ export const GoalsList: NextPageWithLayout = () => {
     <div>
       {goalsQuery.status === 'loading' && '(loading)'}
       {goalsQuery.data?.map((item) => (
-        <article className='p-1' key={item.id}>
-          <h3 className='p-1 text-center text-white bg-blue-400'>{item.title}</h3>
+        <article className="p-1" key={item.id}>
+          <h3 className="p-1 text-center text-white bg-blue-400">
+            {item.title}
+          </h3>
           <Link href={`/goal/${item.id}`}>
-            <div className="p-1 text-xs text-center text-blue-800">View more</div>
+            <div className="p-1 text-xs text-center text-blue-800">
+              View more
+            </div>
           </Link>
         </article>
       ))}
     </div>
-  )
-}
+  );
+};
 
-export const GoalForm: NextPageWithLayout = () => {
+const GoalForm: NextPageWithLayout = () => {
   const utils = trpc.useContext();
   const addGoal = trpc.useMutation('goal.add', {
     async onSuccess() {
@@ -44,24 +48,30 @@ export const GoalForm: NextPageWithLayout = () => {
   const { register, handleSubmit, reset } = useForm();
 
   const onSubmit = async (data: any) => {
-    const input = data
-    input.active = true
+    const input = data;
+    input.active = true;
 
     try {
-      await addGoal.mutateAsync(input)
-      reset()
-    } catch {(error: any) => console.log(error)}
-  }
+      await addGoal.mutateAsync(input);
+      reset();
+    } catch {
+      (error: any) => console.log(error);
+    }
+  };
 
   return (
     <div className="p-2">
       Add Goal
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <input {...register("title")} placeholder="Title" name="title" />
+          <input {...register("'title'")} placeholder="Title" name="title" />
         </div>
         <div>
-          <input {...register("description")} placeholder="Description" name="description" />
+          <input
+            {...register("'description'")}
+            placeholder="Description"
+            name="description"
+          />
         </div>
         <input className="bg-gray-100 btn" type="submit" />
         {addGoal.error && (
@@ -71,6 +81,8 @@ export const GoalForm: NextPageWithLayout = () => {
     </div>
   );
 };
+
+export default GoalForm;
 
 /**
  * If you want to statically render this page
