@@ -61,11 +61,11 @@ const GoalForm = () => {
       Add Goal
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <input {...register('title')} placeholder="Title" name="title" />
+          <input {...register("title")} placeholder="Title" name="title" />
         </div>
         <div>
           <input
-            {...register('description')}
+            {...register("description")}
             placeholder="Description"
             name="description"
           />
