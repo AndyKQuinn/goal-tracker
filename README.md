@@ -64,6 +64,15 @@ Go to [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints)
   </tbody>
 </table>
 
+## Dev Quirks
+
+Sometimes the local data_db volume can cause issues on larger db schema changes
+Use this to clear the volumes:
+
+```bash
+docker-compose down --volumes
+```
+
 ---
 
 Author: Andy Quinn (Guice)

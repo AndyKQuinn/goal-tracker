@@ -3,6 +3,7 @@
  */
 import { createRouter } from '../createRouter';
 import { goalRouter } from './goal';
+import { taskRouter } from './task';
 import superjson from 'superjson';
 
 /**
@@ -30,6 +31,7 @@ export const appRouter = createRouter()
       return 'yay!';
     },
   })
-  .merge('goal.', goalRouter);
+  .merge('goal.', goalRouter)
+  .merge('task.', taskRouter)
 
 export type AppRouter = typeof appRouter;

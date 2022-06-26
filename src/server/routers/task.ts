@@ -9,48 +9,48 @@ import { createRouter } from '~/server/createRouter';
 import { prisma } from '~/server/prisma';
 
 /**
- * Default selector for Goal.
- * It's important to always explicitly say which fields you want to return in order to not leak extra information
- * @see https://github.com/prisma/prisma/issues/9353
- */
-const defaultGoalSelect = Prisma.validator<Prisma.GoalSelect>()({
+* Default selector for Task.
+* It's important to always explicitly say which fields you want to return in order to not leak extra information
+* @see https://github.com/prisma/prisma/issues/9353
+*/
+const defaultTaskSelect = Prisma.validator<Prisma.TaskSelect>()({
   id: true,
   title: true,
   description: true,
-  active: true,
+  goalID: true,
   createdAt: true,
   updatedAt: true,
-  createdBy: true
+  createdBy: true,
 });
 
-export const goalRouter = createRouter()
+export const taskRouter = createRouter()
   // create
   .mutation('add', {
     input: z.object({
       id: z.string().uuid().optional(),
       title: z.string().min(1).max(32),
       description: z.string(),
-      active: z.boolean(),
-      createdBy: z.string().min(1)
+      goalID: z.string(),
+      createdBy: z.string().min(1),
     }),
     async resolve({ input }) {
-      const goal = await prisma.goal.create({
+      const task = await prisma.task.create({
         data: input,
-        select: defaultGoalSelect,
+        select: defaultTaskSelect,
       });
-      return goal;
+      return task;
     },
   })
   // read
   .query('all', {
     async resolve() {
       /**
-       * For pagination you can have a look at this docs site
-       * @link https://trpc.io/docs/useInfiniteQuery
-       */
+      * For pagination you can have a look at this docs site
+      * @link https://trpc.io/docs/useInfiniteQuery
+      */
 
-      return prisma.goal.findMany({
-        select: defaultGoalSelect,
+      return prisma.task.findMany({
+        select: defaultTaskSelect,
       });
     },
   })
@@ -60,17 +60,17 @@ export const goalRouter = createRouter()
     }),
     async resolve({ input }) {
       const { id } = input;
-      const goal = await prisma.goal.findUnique({
+      const task = await prisma.task.findUnique({
         where: { id },
-        select: defaultGoalSelect,
+        select: defaultTaskSelect,
       });
-      if (!goal) {
+      if (!task) {
         throw new TRPCError({
           code: 'NOT_FOUND',
-          message: `No goal with id '${id}'`,
+          message: `No task with id '${id}'`,
         });
       }
-      return goal;
+      return task;
     },
   })
   // update
@@ -84,12 +84,12 @@ export const goalRouter = createRouter()
     }),
     async resolve({ input }) {
       const { id, data } = input;
-      const goal = await prisma.goal.update({
+      const task = await prisma.task.update({
         where: { id },
         data,
-        select: defaultGoalSelect,
+        select: defaultTaskSelect,
       });
-      return goal;
+      return task;
     },
   })
   // delete
@@ -99,7 +99,7 @@ export const goalRouter = createRouter()
     }),
     async resolve({ input }) {
       const { id } = input;
-      await prisma.goal.delete({ where: { id } });
+      await prisma.task.delete({ where: { id } });
       return {
         id,
       };

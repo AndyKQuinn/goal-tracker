@@ -11,17 +11,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id    String @id @default(uuid())
-  title String
-  text  String
-
-  // To return `Date`s intact through the API we need to add data transformers
-  // https://trpc.io/docs/data-transformers
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-}
-
 model Goal {
   id          String   @id @default(uuid())
   title       String
@@ -29,18 +18,18 @@ model Goal {
   active      Boolean
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
-  tasks       Task[]
+  createdBy   String
 }
 
 model Task {
-  id             String     @id @default(uuid())
-  title          String
-  description    String
-  cadence        String
-  quantity       Int
-  goalID         String
-  goal           Goal       @relation(fields: [goalID], references: [id])
-  createdAt      DateTime   @default(now())
-  updatedAt      DateTime   @default(now())
-  datesCompleted DateTime[]
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  // cadence        String
+  // quantity       Int
+  goalID      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  // datesCompleted DateTime[]
+  createdBy   String
 }
