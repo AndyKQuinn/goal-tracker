@@ -26,4 +26,7 @@ module.exports = getConfig({
   publicRuntimeConfig: {
     NODE_ENV: env.NODE_ENV,
   },
+  images: {
+    domains: ['tailwindui.com']
+  },
 });
