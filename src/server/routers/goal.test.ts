@@ -13,6 +13,7 @@ test('add and get goal', async () => {
     title: 'hello test',
     description: 'hello test description',
     active: true,
+    createdBy: 'rando user',
   };
   const post = await caller.mutation('goal.add', input);
   const byId = await caller.query('goal.byId', {

@@ -19,17 +19,32 @@ model Goal {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   createdBy   String
+  tasks       Task[]
 }
 
 model Task {
-  id          String   @id @default(uuid())
+  id          String      @id @default(uuid())
   title       String
   description String
-  // cadence        String
-  // quantity       Int
-  goalID      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
-  // datesCompleted DateTime[]
+  cadence     String
+  quantity    Int
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now())
   createdBy   String
+  taskEntries TaskEntry[]
+
+  Goal   Goal?   @relation(fields: [goalId], references: [id])
+  goalId String?
+}
+
+model TaskEntry {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now())
+  rating    Int
+  comment   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  Task   Task?   @relation(fields: [taskId], references: [id])
+  taskId String?
 }

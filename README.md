@@ -4,19 +4,25 @@ Goal tracking application built on Next.js, Prisma, Postgres, Zod and tRPC.
 
 May or may not someday have a game element :shrug:
 
-## Setup
-
-**yarn:**
-
-```bash
-yarn
-yarn dx
-```
-
 ### Requirements
 
 - Node >= 14
 - Docker (for running Postgres)
+
+### Development
+
+General usage - sync schemas, spin up Postgres DBs and kick off migrate
+Note: Requires two executes as first command will fail as DBs spin up
+
+```bash
+yarn dx
+```
+
+Things went awry? Use this to kill off existing containers
+
+```bash
+docker-compose down --volumes
+```
 
 ### Commands
 
@@ -63,15 +69,6 @@ Go to [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints)
     </tr>
   </tbody>
 </table>
-
-## Dev Quirks
-
-Sometimes the local data_db volume can cause issues on larger db schema changes
-Use this to clear the volumes:
-
-```bash
-docker-compose down --volumes
-```
 
 ---
 
