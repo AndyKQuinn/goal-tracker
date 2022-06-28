@@ -1,12 +1,15 @@
 import { useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
-// import { NextPageWithLayout } from '../_app';
 import Link from 'next/link';
 import { useForm } from 'react-hook-form';
+import { useUser } from '@auth0/nextjs-auth0';
 
 export const GoalsList = () => {
   const goalsQuery = trpc.useQuery(['goal.all']);
   const utils = trpc.useContext();
+  const { user } = useUser();
+
+  console.log("User: ", user)
 
   // prefetch for instant navigation
   useEffect(() => {

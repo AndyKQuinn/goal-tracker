@@ -17,8 +17,6 @@
    id: true,
    taskId: true,
    date: true,
-   rating: true,
-   comment: true,
    createdAt: true,
    updatedAt: true,
  });
@@ -30,8 +28,9 @@
       id: z.string().uuid(),
       taskId: z.string(),
       date: z.date(),
-      rating: z.number(),
-      comment: z.string(),
+      rating: z.number().optional(),
+      duration: z.number().optional(),
+      comment: z.string().optional(),
     }),
     async resolve({ input }) {
       const taskEntry = await prisma.taskEntry.create({

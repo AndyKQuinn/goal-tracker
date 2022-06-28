@@ -40,11 +40,22 @@ model Task {
 model TaskEntry {
   id        String   @id @default(uuid())
   date      DateTime @default(now())
-  rating    Int
-  comment   String
+  rating    Int?
+  duration  Int?
+  comment   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now())
 
   Task   Task?   @relation(fields: [taskId], references: [id])
   taskId String?
+}
+
+model User {
+  id            String   @id @default(uuid())
+  preferredName String
+  fullName      String
+  avatarUri     String
+  email         String
+  createdAt     DateTime @default(now())
+  updatedat     DateTime @default(now())
 }

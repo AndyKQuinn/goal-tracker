@@ -16,6 +16,7 @@ async function main() {
     id: firstTaskEntryId,
     rating: 5,
     comment: 'Not my best effort...',
+    duration: 60
   }
 
   const firstTask =  {
@@ -51,12 +52,38 @@ async function main() {
     active: false,
   }
 
+  const updatedTask = {
+    title: 'Updated Task Title',
+    description: 'Updated Task Description',
+  }
+
+  const updatedTaskEntry = {
+    rating: 3,
+    comment: 'Getting better...',
+  }
+
   await prisma.goal.upsert({
     where: {
       id: firstGoalId,
     },
     create: firstGoal,
     update: updatedGoal,
+  })
+
+  await prisma.task.upsert({
+    where: {
+      id: firstTaskId,
+    },
+    create: firstTask,
+    update: updatedTask,
+  })
+
+  await prisma.taskEntry.upsert({
+    where: {
+      id: firstTaskEntryId,
+    },
+    create: firstTaskEntry,
+    update: updatedTaskEntry,
   })
 }
 

@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Transition } from '@headlessui/react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
+import { Transition } from '@headlessui/react';
 
 function Nav() {
+  const router = useRouter();
+  router?.events?.on('routeChangeStart', () => setIsOpen(false))
+  
   const [isOpen, setIsOpen] = useState(false);
+  
   return (
     <div>
       <nav className="text-white bg-gray-800">
