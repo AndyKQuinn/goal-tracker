@@ -30,7 +30,7 @@ const GoalViewPage: NextPageWithLayout = () => {
       <p>{data.description}</p>
 
       <h2>Raw data:</h2>
-      <div>{JSON.stringify(data, null, 4)}</div>
+      <pre>{JSON.stringify(data, null, 4)}</pre>
     </>
   );
 };

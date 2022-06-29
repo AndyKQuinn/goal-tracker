@@ -29,7 +29,7 @@ export const taskRouter = createRouter()
   // create
   .mutation('add', {
     input: z.object({
-      id: z.string().uuid().optional(),
+      id: z.string().uuid(),
       title: z.string().min(1).max(32),
       description: z.string(),
       goalId: z.string().min(1),
