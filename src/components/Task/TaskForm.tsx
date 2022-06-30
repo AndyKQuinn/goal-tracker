@@ -3,25 +3,16 @@ import { trpc } from '../../utils/trpc';
 import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
 
+type FormValues = {
+  title: string,
+  description: string,
+  quantity: number,
+  cadence: string,
+}
+
 export default function TaskForm() {
   const { user } = useUser();
   const { sub } = user || { sub: '' };
-
-  const [taskDetails, setTaskDetails] = useState({
-    title: "",
-    description: "",
-    cadence: "daily",
-    quantity: 1,
-  })
-
-  const handleChange = (e: any) => {
-    setTaskDetails({
-      ...taskDetails,
-      [e.target.name]: e.target.value,
-    })
-  }
-
-  console.log('Details: ', taskDetails)
   
   const utils = trpc.useContext();
   const addGoal = trpc.useMutation('task.add', {
@@ -30,7 +21,14 @@ export default function TaskForm() {
     },
   });
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit, reset } = useForm<FormValues>({
+    defaultValues: {
+      title: "",
+      description: "",
+      quantity: 1,
+      cadence: "daily",
+    }
+  });
 
   const [ showOptions, setShowOptions ] = useState(false);
   function toggleShowOptions(e: any) {
@@ -39,12 +37,12 @@ export default function TaskForm() {
   }
 
   const onSubmit = async (data: any) => {
-    console.log("Data: ", data)
 
     const input = data;
-    
-    input.active = true;
-    input.createdBy = sub;
+    input.createdBy = sub
+    input.active = true
+
+    console.log('Input: ', input)
 
     // try {
     //   await addGoal.mutateAsync(input);
@@ -59,7 +57,6 @@ export default function TaskForm() {
       <div className="mb-1 text-xl bg-gray-300 ">
         Add Tasks
       </div>
-      {/* <form onSubmit={handleSubmit}> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="mt-4">
@@ -94,7 +91,6 @@ export default function TaskForm() {
                 <select
                   className="block w-full form-select"
                   {...register("cadence")}
-                  defaultValue="daily"
                 >
                   <option value="daily" id="daily">Daily</option>
                   <option value="weekly" id="weekly">Weekly</option>
@@ -105,7 +101,6 @@ export default function TaskForm() {
                 <select
                   className="block w-full form-select"
                   {...register("quantity")}
-                  defaultValue="1"
                 >
                   <option value="1" id="1">1</option>
                   <option value="2" id="2">2</option>

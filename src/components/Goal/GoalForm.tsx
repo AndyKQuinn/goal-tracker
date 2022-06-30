@@ -44,7 +44,6 @@ export default function GoalForm() {
               className="block w-full form-input"
               {...register("title")}
               placeholder="Goal Title"
-              // name="title"
             />
           </div>
         </div>
@@ -55,7 +54,6 @@ export default function GoalForm() {
               className="block w-full form-input"
               {...register("description")}
               placeholder="Goal Description"
-              // name="description"
             />
           </div>
         </div>       
