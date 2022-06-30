@@ -25,6 +25,7 @@ async function main() {
     description: 'First Task Description',
     createdBy: 'andyQuinn',
     cadence: 'daily',
+    active: true,
     quantity: 3,
     taskEntries: {
       create: [

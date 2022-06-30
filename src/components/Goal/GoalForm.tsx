@@ -42,9 +42,9 @@ export default function GoalForm() {
           <div className="mt-2">
             <input
               className="block w-full form-input"
-              {...register("goal.title")}
+              {...register("title")}
               placeholder="Goal Title"
-              name="title"
+              // name="title"
             />
           </div>
         </div>
@@ -53,9 +53,9 @@ export default function GoalForm() {
           <div className="mt-2">
             <input
               className="block w-full form-input"
-              {...register("goal.description")}
+              {...register("description")}
               placeholder="Goal Description"
-              name="description"
+              // name="description"
             />
           </div>
         </div>       

@@ -6,6 +6,22 @@ import { useUser } from '@auth0/nextjs-auth0';
 export default function TaskForm() {
   const { user } = useUser();
   const { sub } = user || { sub: '' };
+
+  const [taskDetails, setTaskDetails] = useState({
+    title: "",
+    description: "",
+    cadence: "daily",
+    quantity: 1,
+  })
+
+  const handleChange = (e: any) => {
+    setTaskDetails({
+      ...taskDetails,
+      [e.target.name]: e.target.value,
+    })
+  }
+
+  console.log('Details: ', taskDetails)
   
   const utils = trpc.useContext();
   const addGoal = trpc.useMutation('task.add', {
@@ -23,12 +39,12 @@ export default function TaskForm() {
   }
 
   const onSubmit = async (data: any) => {
+    console.log("Data: ", data)
+
     const input = data;
     
     input.active = true;
     input.createdBy = sub;
-
-    console.log("Data: ", input)
 
     // try {
     //   await addGoal.mutateAsync(input);
@@ -43,6 +59,7 @@ export default function TaskForm() {
       <div className="mb-1 text-xl bg-gray-300 ">
         Add Tasks
       </div>
+      {/* <form onSubmit={handleSubmit}> */}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <div className="mt-4">
@@ -50,9 +67,8 @@ export default function TaskForm() {
             <div className="mt-2">
               <input 
                 className="block w-full form-input"
-                {...register("tasks.0.title")}
                 placeholder="Task Title"
-                name="task-title"
+                {...register("title")}
               />
             </div>
           </div>
@@ -61,9 +77,8 @@ export default function TaskForm() {
             <div className="mt-2">
               <input 
                 className="block w-full form-input"
-                {...register("tasks.0.description")}
                 placeholder="Task Description"
-                name="task-description"
+                {...register("description")}
               />
             </div>
           </div>
@@ -78,9 +93,7 @@ export default function TaskForm() {
                 <span>Cadence</span>
                 <select
                   className="block w-full form-select"
-                  {...register("tasks.0.cadence")}
-                  placeholder="Task Cadence"
-                  name="task-cadence"
+                  {...register("cadence")}
                   defaultValue="daily"
                 >
                   <option value="daily" id="daily">Daily</option>
@@ -91,9 +104,7 @@ export default function TaskForm() {
                 <span>Quantity</span>
                 <select
                   className="block w-full form-select"
-                  {...register("tasks.0.quantity")}
-                  placeholder="Task Quantity"
-                  name="task-quantity"
+                  {...register("quantity")}
                   defaultValue="1"
                 >
                   <option value="1" id="1">1</option>
