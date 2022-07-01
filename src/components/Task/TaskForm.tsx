@@ -8,6 +8,8 @@ type FormValues = {
   description: string,
   quantity: number,
   cadence: string,
+  goalId: string,
+  taskEntities: [],
 }
 
 export default function TaskForm() {
@@ -15,6 +17,7 @@ export default function TaskForm() {
   const { sub } = user || { sub: '' };
   
   const utils = trpc.useContext();
+  const goalsQuery = trpc.useQuery(['goal.all']);
   const addGoal = trpc.useMutation('task.add', {
     async onSuccess() {
       await utils.invalidateQueries(['task.all']);
@@ -27,6 +30,8 @@ export default function TaskForm() {
       description: "",
       quantity: 1,
       cadence: "daily",
+      goalId: "",
+      taskEntities: [],
     }
   });
 
@@ -37,19 +42,16 @@ export default function TaskForm() {
   }
 
   const onSubmit = async (data: any) => {
-
     const input = data;
     input.createdBy = sub
     input.active = true
 
-    console.log('Input: ', input)
-
-    // try {
-    //   await addGoal.mutateAsync(input);
-    //   reset();
-    // } catch {
-    //   (error: any) => console.log(error);
-    // }
+    try {
+      await addGoal.mutateAsync(input);
+      reset();
+    } catch {
+      (error: any) => console.log(error);
+    }
   };
 
   return (
@@ -59,6 +61,18 @@ export default function TaskForm() {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
+          <label className="block mt-4">
+            <span>Goal</span>
+            <select
+              className="block w-full form-select"
+              {...register("goalId")}
+            >
+              <option key="" value="">Select one...</option>
+              {goalsQuery.data?.map((goal) => (
+                <option key={goal.id} value={goal.id}>{goal.title}</option>
+              ))}
+            </select>
+          </label>
           <div className="mt-4">
             <span>Title</span>
             <div className="mt-2">
@@ -80,7 +94,9 @@ export default function TaskForm() {
             </div>
           </div>
           <div className="mt-4 text-xs text-end">
-            <button className="p-1 text-white bg-gray-600 w-36" onClick={(e: any) => toggleShowOptions(e)}>
+            <button
+              className="p-1 text-white bg-gray-600 w-36"
+              onClick={(e: any) => toggleShowOptions(e)}>
               {showOptions ? 'Hide More Options' : 'Show More Options'}
             </button>
           </div>

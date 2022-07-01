@@ -1,7 +1,6 @@
 // import { useState } from 'react'
-import GoalList from '../../components/Goal/GoalList'
+import { AllGoalsWithTasksByUser } from '../../components/Goal/GoalList'
 import GoalForm from '../../components/Goal/GoalForm'
-import TaskList from '../../components/Task/TaskList'
 import TaskForm from '../../components/Task/TaskForm'
 
 export default function Track() {
@@ -9,9 +8,8 @@ export default function Track() {
 
   return (
     <div>
-      <GoalList />
+      <AllGoalsWithTasksByUser />
       <GoalForm />
-      <TaskList />
       <TaskForm />
     </div>
   );

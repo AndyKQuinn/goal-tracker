@@ -23,12 +23,12 @@ export default function GoalForm() {
 
     console.log("Data: ", input)
 
-    // try {
-    //   await addGoal.mutateAsync(input);
-    //   reset();
-    // } catch {
-    //   (error: any) => console.log(error);
-    // }
+    try {
+      await addGoal.mutateAsync(input);
+      reset();
+    } catch {
+      (error: any) => console.log(error);
+    }
   };
 
   return (

@@ -55,7 +55,7 @@ export const goalRouter = createRouter()
       });
     },
   })
-  .query('byId', {
+  .query('byGoalId', {
     input: z.object({
       id: z.string(),
     }),
@@ -69,6 +69,25 @@ export const goalRouter = createRouter()
         throw new TRPCError({
           code: 'NOT_FOUND',
           message: `No goal with id '${id}'`,
+        });
+      }
+      return goal;
+    },
+  })
+  .query('byUserId', {
+    input: z.object({
+      createdBy: z.string(),
+    }),
+    async resolve({ input }) {
+      const { createdBy } = input;
+      const goal = await prisma.goal.findMany({
+        where: { createdBy: createdBy },
+        select: defaultGoalSelect,
+      });
+      if (!goal) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No goals made by userID '${createdBy}'`,
         });
       }
       return goal;

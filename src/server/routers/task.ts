@@ -30,7 +30,7 @@ export const taskRouter = createRouter()
   // create
   .mutation('add', {
     input: z.object({
-      id: z.string().uuid(),
+      id: z.string().uuid().optional(),
       title: z.string().min(1).max(32),
       description: z.string(),
       active: z.boolean(),
@@ -73,10 +73,48 @@ export const taskRouter = createRouter()
       if (!task) {
         throw new TRPCError({
           code: 'NOT_FOUND',
-          message: `No task with id '${id}'`,
+          message: `No goal tasks with GoalID '${id}'`,
         });
       }
       return task;
+    },
+  })
+  .query('byGoalId', {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input }) {
+      const { id } = input;
+      const task = await prisma.task.findMany({
+        where: { goalId: id },
+        select: defaultTaskSelect,
+      });
+      if (!task) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No goal tasks with GoalID '${id}'`,
+        });
+      }
+      return task;
+    },
+  })
+  .query('byUserId', {
+    input: z.object({
+      createdBy: z.string(),
+    }),
+    async resolve({ input }) {
+      const { createdBy } = input;
+      const goal = await prisma.task.findMany({
+        where: { createdBy: createdBy },
+        select: defaultTaskSelect,
+      });
+      if (!goal) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No goals made by userID '${createdBy}'`,
+        });
+      }
+      return goal;
     },
   })
   // update

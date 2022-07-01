@@ -1,8 +1,8 @@
-import GoalList from '../../components/Goal/GoalList'
+import { AllGoalsWithTasks} from '../../components/Goal/GoalList'
 
 export default function GoalsPage() {
   return (
-    <GoalList />
+    <AllGoalsWithTasks />
   )
 }
 
