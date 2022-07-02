@@ -1,9 +1,9 @@
-import GoalForm from '../../../components/Goal/GoalForm'
+import TaskForm from '../../components/Task/TaskForm'
 
 export default function CreateGoal() {
   return (
     <div>
-      <GoalForm />
+      <TaskForm />
     </div>
   )
 }

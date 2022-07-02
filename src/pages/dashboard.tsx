@@ -15,7 +15,7 @@ export default function Dashboard() {
             New Goal
           </button>
         </Link>
-        <Link href="/goals/createGoal">
+        <Link href="/tasks/createTask">
           <button
             className="text-white bg-purple-600 btn"
           >

@@ -70,7 +70,7 @@ export function AllGoals() {
 }
 
 export default function AllGoalsWithTasksByUser() {
-  const utils = trpc.useContext();
+  // const utils = trpc.useContext();
 
   const { user } = useUser();
   const id = user?.sub || "defaultUser"

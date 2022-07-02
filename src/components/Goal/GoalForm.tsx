@@ -7,9 +7,9 @@ export default function GoalForm() {
   const { sub } = user || { sub: '' };
   
   const utils = trpc.useContext();
-  const addGoal = trpc.useMutation('goal.add', {
+  const addGoal = trpc.useMutation('goals.add', {
     async onSuccess() {
-      await utils.invalidateQueries(['goal.all']);
+      await utils.invalidateQueries(['goals.all']);
     },
   });
 
