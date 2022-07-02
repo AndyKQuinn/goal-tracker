@@ -3,13 +3,13 @@ import { trpc } from '../../utils/trpc';
 import Link from 'next/link';
 
 export default function TaskList() {
-  const tasksQuery = trpc.useQuery(['task.all']);
+  const tasksQuery = trpc.useQuery(['tasks.all']);
   const utils = trpc.useContext();
 
   // prefetch for instant navigation
   useEffect(() => {
     for (const { id } of tasksQuery.data ?? []) {
-      utils.prefetchQuery(['task.byId', { id }]);
+      utils.prefetchQuery(['tasks.byId', { id }]);
     }
   }, [tasksQuery.data, utils]);
 
