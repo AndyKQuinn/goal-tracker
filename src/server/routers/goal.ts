@@ -20,7 +20,8 @@ const defaultGoalSelect = Prisma.validator<Prisma.GoalSelect>()({
   active: true,
   createdAt: true,
   updatedAt: true,
-  createdBy: true
+  createdBy: true,
+  tasks: true
 });
 
 export const goalRouter = createRouter()
@@ -31,7 +32,7 @@ export const goalRouter = createRouter()
       title: z.string().min(1).max(32),
       description: z.string(),
       active: z.boolean(),
-      createdBy: z.string().min(1)
+      createdBy: z.string().min(1),
     }),
     async resolve({ input }) {
       const goal = await prisma.goal.create({
@@ -54,7 +55,7 @@ export const goalRouter = createRouter()
       });
     },
   })
-  .query('byId', {
+  .query('byGoalId', {
     input: z.object({
       id: z.string(),
     }),
@@ -73,6 +74,25 @@ export const goalRouter = createRouter()
       return goal;
     },
   })
+  .query('byUserId', {
+    input: z.object({
+      createdBy: z.string(),
+    }),
+    async resolve({ input }) {
+      const { createdBy } = input;
+      const goal = await prisma.goal.findMany({
+        where: { createdBy: createdBy },
+        select: defaultGoalSelect,
+      });
+      if (!goal) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No goals made by userID '${createdBy}'`,
+        });
+      }
+      return goal;
+    },
+  })
   // update
   .mutation('edit', {
     input: z.object({
@@ -80,6 +100,7 @@ export const goalRouter = createRouter()
       data: z.object({
         title: z.string().min(1).max(32).optional(),
         description: z.string().min(1).optional(),
+        active: z.boolean(),
       }),
     }),
     async resolve({ input }) {

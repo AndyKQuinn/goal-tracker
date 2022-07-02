@@ -1,19 +1,17 @@
 {
-  "parser": "@typescript-eslint/parser", // Specifies the ESLint parser
+  "parser": "@typescript-eslint/parser", // Specifies ESLint parser
   "extends": [
-    "plugin:@typescript-eslint/recommended", // Uses the recommended rules from the @typescript-eslint/eslint-plugin
+    "plugin:@typescript-eslint/recommended", // Uses recommended rules from @typescript-eslint/eslint-plugin
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    // "plugin:prettier/recommended",
     "plugin:@next/next/recommended"
   ],
   "parserOptions": {
     "project": "tsconfig.json",
-    "ecmaVersion": 2018, // Allows for the parsing of modern ECMAScript features
-    "sourceType": "module" // Allows for the use of imports
+    "ecmaVersion": 2018, // Allows for parsing of modern ECMAScript features
+    "sourceType": "module" // Allows for use of imports
   },
   "rules": {
-    // Place to specify ESLint rules. Can be used to overwrite rules specified from the extended configs
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "react/react-in-jsx-scope": "off",

@@ -5,7 +5,7 @@ import { trpc } from '~/utils/trpc';
 
 const GoalViewPage: NextPageWithLayout = () => {
   const id = useRouter().query.id as string;
-  const goalQuery = trpc.useQuery(['goal.byId', { id }]);
+  const goalQuery = trpc.useQuery(['goals.byGoalId', { id }]);
 
   if (goalQuery.error) {
     return (
@@ -30,7 +30,7 @@ const GoalViewPage: NextPageWithLayout = () => {
       <p>{data.description}</p>
 
       <h2>Raw data:</h2>
-      <div>{JSON.stringify(data, null, 4)}</div>
+      <pre>{JSON.stringify(data, null, 4)}</pre>
     </>
   );
 };

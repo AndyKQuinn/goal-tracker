@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 const { join } = require('path');
 const plugin = require('tailwindcss/plugin')
 
@@ -27,6 +28,7 @@ module.exports = {
   },
   plugins: [
     // require('@tailwindcss/typography'),
+      require('@tailwindcss/custom-forms'),
     {
       tailwindcss: {
         config: join(__dirname, 'tailwind.config.js'),
