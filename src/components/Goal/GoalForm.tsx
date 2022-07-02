@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
 import { trpc } from '../../utils/trpc';
+import Router from 'next/router';
 
 export default function GoalForm() {
   const { user } = useUser();
@@ -21,11 +22,10 @@ export default function GoalForm() {
     input.active = true;
     input.createdBy = sub;
 
-    console.log("Data: ", input)
-
     try {
       await addGoal.mutateAsync(input);
       reset();
+      Router.push("/dashboard")
     } catch {
       (error: any) => console.log(error);
     }
