@@ -33,8 +33,8 @@ export const appRouter = createRouter()
       return 'yay!';
     },
   })
-  .merge('goal.', goalRouter)
-  .merge('task.', taskRouter)
+  .merge('goals.', goalRouter)
+  .merge('tasks.', taskRouter)
   .merge('taskEntry.', taskEntryRouter)
   .merge('user.', userRouter)
 

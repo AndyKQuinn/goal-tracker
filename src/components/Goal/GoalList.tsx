@@ -4,14 +4,14 @@ import { trpc } from '../../utils/trpc';
 import Link from 'next/link';
 
 export function AllGoalsWithTasks() {
-  const goalsQuery = trpc.useQuery(['goal.all']);
+  const goalsQuery = trpc.useQuery(['goals.all']);
   const utils = trpc.useContext();
 
   const goals = goalsQuery?.data
 
   useEffect(() => {
     for (const { id } of goalsQuery.data ?? []) {
-      utils.prefetchQuery(['goal.byGoalId', { id }]);
+      utils.prefetchQuery(['goals.byGoalId', { id }]);
     }
   }, [goalsQuery.data, utils]);
 
@@ -46,12 +46,12 @@ export function AllGoalsWithTasks() {
 }
 
 export function AllGoals() {
-  const goalsQuery = trpc.useQuery(['goal.all']);
+  const goalsQuery = trpc.useQuery(['goals.all']);
   const utils = trpc.useContext();
 
   useEffect(() => {
     for (const { id } of goalsQuery.data ?? []) {
-      utils.prefetchQuery(['goal.byGoalId', { id }]);
+      utils.prefetchQuery(['goals.byGoalId', { id }]);
     }
   }, [goalsQuery.data, utils]);
 
@@ -69,31 +69,32 @@ export function AllGoals() {
   );
 }
 
-export function AllGoalsWithTasksByUser() {
+export default function AllGoalsWithTasksByUser() {
   const utils = trpc.useContext();
 
   const { user } = useUser();
   const id = user?.sub || "defaultUser"
-  const goalsQuery = trpc.useQuery(['goal.byUserId', { createdBy: id }])
+  const goalsQuery = trpc.useQuery(['goals.byUserId', { createdBy: id }])
   console.log("User Goals: ", goalsQuery.data)
 
   const goals = goalsQuery?.data
+  console.log("Goals: ", goals)
 
-  useEffect(() => {
-    for (const { id } of goalsQuery.data ?? []) {
-      utils.prefetchQuery(['goal.byGoalId', { id }]);
-    }
-  }, [goalsQuery.data, utils]);
+  // useEffect(() => {
+  //   for (const { id } of goalsQuery.data ?? []) {
+  //     utils.prefetchQuery(['goal.byGoalId', { id }]);
+  //   }
+  // }, [goalsQuery.data, utils]);
 
   return (
     <div className="p-1">
       {goalsQuery.status === 'loading' && '(loading)'}
-      {goals?.map((goal) => (
+      {goals?.map((goal: any) => (
         <article className="p-1 mt-1 border-2 border-purple-200 rounded-md shadow-md" key={goal.id}>
           <h3 className="p-2 text-white bg-purple-600 border-2 rounded-md">
             Goal: {goal.title}
           </h3>
-          {goal?.tasks.map((task) => (
+          {goal?.tasks.map((task: any) => (
             <div key={task.id} className="p-1 ml-2 text-xs bg-gray-200">
               Task {task.id}
               <div className="ml-4 text-xs">

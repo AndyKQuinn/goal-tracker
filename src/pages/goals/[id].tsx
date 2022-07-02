@@ -3,24 +3,24 @@ import { useRouter } from 'next/router';
 import { NextPageWithLayout } from '~/pages/_app';
 import { trpc } from '~/utils/trpc';
 
-const TaskViewPage: NextPageWithLayout = () => {
+const GoalViewPage: NextPageWithLayout = () => {
   const id = useRouter().query.id as string;
-  const taskQuery = trpc.useQuery(['task.byId', { id }]);
+  const goalQuery = trpc.useQuery(['goals.byGoalId', { id }]);
 
-  if (taskQuery.error) {
+  if (goalQuery.error) {
     return (
       <NextError
-        title={taskQuery.error.message}
-        statusCode={taskQuery.error.data?.httpStatus ?? 500}
+        title={goalQuery.error.message}
+        statusCode={goalQuery.error.data?.httpStatus ?? 500}
       />
     );
   }
 
-  if (taskQuery.status !== 'success') {
+  if (goalQuery.status !== 'success') {
     return <>Loading...</>;
   }
 
-  const { data } = taskQuery;
+  const { data } = goalQuery;
 
   return (
     <>
@@ -35,4 +35,4 @@ const TaskViewPage: NextPageWithLayout = () => {
   );
 };
 
-export default TaskViewPage;
+export default GoalViewPage;

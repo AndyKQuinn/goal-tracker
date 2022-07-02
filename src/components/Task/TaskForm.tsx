@@ -17,10 +17,10 @@ export default function TaskForm() {
   const { sub } = user || { sub: '' };
   
   const utils = trpc.useContext();
-  const goalsQuery = trpc.useQuery(['goal.all']);
-  const addGoal = trpc.useMutation('task.add', {
+  const goalsQuery = trpc.useQuery(['goals.all']);
+  const addGoal = trpc.useMutation('tasks.add', {
     async onSuccess() {
-      await utils.invalidateQueries(['task.all']);
+      await utils.invalidateQueries(['tasks.all']);
     },
   });
 
