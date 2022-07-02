@@ -9,15 +9,15 @@ test('add and get goal', async () => {
   const ctx = await createContextInner({});
   const caller = appRouter.createCaller(ctx);
 
-  const input: inferMutationInput<'goal.add'> = {
+  const input: inferMutationInput<'goals.add'> = {
     title: 'hello test',
     description: 'hello test description',
     active: true,
     createdBy: 'rando user',
   };
-  const post = await caller.mutation('goal.add', input);
-  const byId = await caller.query('goal.byId', {
-    id: post.id,
+  const goal = await caller.mutation('goals.add', input);
+  const byId = await caller.query('goals.byGoalId', {
+    id: goal.id,
   });
 
   expect(byId).toMatchObject(input);
