@@ -5,7 +5,7 @@
 # previewsExpireAfterDays: 2
 services:
   - type: web
-    name: trpc-starter-app
+    name: wakkatracker-app
     env: node
     plan: free
     ## 👇 Specify the plan for the PR deployment:
@@ -19,9 +19,9 @@ services:
     envVars:
       - key: DATABASE_URL
         fromDatabase:
-          name: trpc-starter-db
+          name: wakkatracker-db
           property: connectionString
 
 databases:
-  - name: trpc-starter-db
+  - name: wakkatracker-db
     plan: free

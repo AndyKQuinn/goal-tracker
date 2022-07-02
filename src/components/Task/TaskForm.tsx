@@ -14,10 +14,10 @@ type FormValues = {
 
 export default function TaskForm() {
   const { user } = useUser();
-  const { sub } = user || { sub: '' };
+  const id = user?.sub || "defaultUser"
+  const goalsQuery = trpc.useQuery(['goals.byUserId', { createdBy: id }])
   
   const utils = trpc.useContext();
-  const goalsQuery = trpc.useQuery(['goals.all']);
   const addGoal = trpc.useMutation('tasks.add', {
     async onSuccess() {
       await utils.invalidateQueries(['tasks.all']);
@@ -43,7 +43,7 @@ export default function TaskForm() {
 
   const onSubmit = async (data: any) => {
     const input = data;
-    input.createdBy = sub
+    input.createdBy = id
     input.active = true
 
     try {

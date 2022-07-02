@@ -6,11 +6,12 @@ export default function LandingPage() {
       <div className="p-2">
         Welcome to my thing that will eventually be something interesting
       </div>
-      <div className="p-2">
-        For now, you track things and maybe it saves it? :shrug:
-      </div>
-      <div>
-        <Link href="/api/auth/login">Login</Link>
+      <div className="text-center">
+        <Link href="/api/auth/login">
+          <button className="bg-gray-200 btn">
+            Login
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -27,6 +27,6 @@ module.exports = getConfig({
     NODE_ENV: env.NODE_ENV,
   },
   images: {
-    domains: ['tailwindui.com', 's.gravatar.com']
+    domains: ['tailwindui.com']
   },
 });

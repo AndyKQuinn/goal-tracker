@@ -75,10 +75,10 @@ export default function AllGoalsWithTasksByUser() {
   const { user } = useUser();
   const id = user?.sub || "defaultUser"
   const goalsQuery = trpc.useQuery(['goals.byUserId', { createdBy: id }])
-  console.log("User Goals: ", goalsQuery.data)
+  // console.log("User Goals: ", goalsQuery.data)
 
   const goals = goalsQuery?.data
-  console.log("Goals: ", goals)
+  // console.log("Goals: ", goals)
 
   // useEffect(() => {
   //   for (const { id } of goalsQuery.data ?? []) {
@@ -105,7 +105,7 @@ export default function AllGoalsWithTasksByUser() {
               </div>
             </div>
           ))}
-          <Link href={`/goal/${goal.id}`}>
+          <Link href={`/goals/${goal.id}`}>
             <div className="p-1 text-xs text-center text-purple-800">
               View more
             </div>
