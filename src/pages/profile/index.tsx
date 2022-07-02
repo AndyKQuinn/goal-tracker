@@ -1,4 +1,4 @@
-import { trpc } from '../../utils/trpc';
+// import { trpc } from '../../utils/trpc';
 import { useUser } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import profilePic from '../../images/profile.jpg'
@@ -8,7 +8,7 @@ export default function Profile() {
   const {
     nickname,
     name,
-    picture,
+    // picture,
     email,
     sub
   } = user || {
@@ -30,7 +30,7 @@ export default function Profile() {
         <div>Name: {name}</div>
         <div>
           Image: {' '}
-          <Image height={50} width={50} src={picture || profilePic} alt="Profile Pic" />
+          <Image height={50} width={50} src={profilePic} alt="Profile Pic" />
         </div>
         <div>Email: {email} </div>
         <div>ID (sub): {sub} </div>
