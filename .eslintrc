@@ -1,0 +1,36 @@
+{
+  "parser": "@typescript-eslint/parser", // Specifies ESLint parser
+  "extends": [
+    "plugin:@typescript-eslint/recommended", // Uses recommended rules from @typescript-eslint/eslint-plugin
+    "plugin:react/recommended",
+    "plugin:react-hooks/recommended",
+    "plugin:@next/next/recommended"
+  ],
+  "parserOptions": {
+    "project": "tsconfig.json",
+    "ecmaVersion": 2018, // Allows for parsing of modern ECMAScript features
+    "sourceType": "module" // Allows for use of imports
+  },
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "@typescript-eslint/no-explicit-any": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        // "@typescript-eslint/no-unused-vars": "off"
+        "semi": "off",
+        "prettier/prettier": "off"
+      }
+    }
+  ],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

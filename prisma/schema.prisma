@@ -1,0 +1,62 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider          = "postgres"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Goal {
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  active      Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  createdBy   String
+  tasks       Task[]
+}
+
+model Task {
+  id          String      @id @default(uuid())
+  title       String
+  description String
+  cadence     String
+  quantity    Int
+  active      Boolean
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @default(now())
+  createdBy   String
+  taskEntries TaskEntry[]
+
+  Goal   Goal?   @relation(fields: [goalId], references: [id])
+  goalId String?
+}
+
+model TaskEntry {
+  id        String   @id @default(uuid())
+  date      DateTime @default(now())
+  rating    Int?
+  duration  Int?
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  Task   Task?   @relation(fields: [taskId], references: [id])
+  taskId String?
+}
+
+model User {
+  id            String   @id @default(uuid())
+  preferredName String
+  fullName      String
+  avatarUri     String
+  email         String
+  createdAt     DateTime @default(now())
+  updatedat     DateTime @default(now())
+}
