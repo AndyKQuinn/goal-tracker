@@ -57,14 +57,14 @@ export default function TaskForm() {
   };
 
   return (
-    <div className="p-2 text-center bg-gray-200">
-      <div className="mb-1 text-xl bg-gray-300 ">
+    <div className="p-2 m-1 text-center border-2 border-gray-100 rounded-md">
+      <div className="p-1 mb-1 text-xl text-white bg-purple-600 border-2 rounded-md">
         Add Tasks
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
           <label className="block mt-4">
-            <span>Goal</span>
+            <span>Choose a Goal</span>
             <select
               className="block w-full form-select"
               {...register("goalId")}
@@ -76,7 +76,6 @@ export default function TaskForm() {
             </select>
           </label>
           <div className="mt-4">
-            <span>Title</span>
             <div className="mt-2">
               <input 
                 className="block w-full form-input"
@@ -86,7 +85,6 @@ export default function TaskForm() {
             </div>
           </div>
           <div className="mt-4">
-            <span>Description</span>
             <div className="mt-2">
               <input 
                 className="block w-full form-input"
@@ -105,7 +103,6 @@ export default function TaskForm() {
           {showOptions && (
             <>
               <label className="block mt-4">
-                <span>Cadence</span>
                 <select
                   className="block w-full form-select"
                   {...register("cadence")}
@@ -115,7 +112,6 @@ export default function TaskForm() {
                 </select>
               </label>
               <label className="block mt-4">
-                <span>Quantity</span>
                 <select
                   className="block w-full form-select"
                   {...register("quantity")}
@@ -128,7 +124,7 @@ export default function TaskForm() {
             </>
           )}
         </div>
-        <input className="m-1 mt-4 text-white bg-gray-600 btn" type="submit" />
+        <input className="m-1 mt-4 text-white bg-purple-600 btn" type="submit" />
         {addGoal.error && (
           <p style={{ color: 'red' }}>{addGoal.error.message}</p>
         )}

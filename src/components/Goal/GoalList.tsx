@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { trpc } from '../../utils/trpc';
 import Link from 'next/link';
-import Route from 'next/router'
 
 export function AllGoalsWithTasks() {
   const goalsQuery = trpc.useQuery(['goals.all']);
@@ -72,6 +71,7 @@ export function AllGoals() {
 
 export default function AllGoalsWithTasksByUser() {
   const utils = trpc.useContext();
+  const [ isChecked, setIsChecked ] = useState(false)
 
   const { user } = useUser();
   const id = user?.sub || "defaultUser"
@@ -100,29 +100,37 @@ export default function AllGoalsWithTasksByUser() {
             Goal: {goal.title}
           </h3>
           {goal?.tasks.map((task: any) => (
-            <div key={task.id} className="p-1 ml-2 text-xs bg-gray-200">
-              Task {task.id}
-              <div className="ml-4 text-xs">
-                <div>Title: {task.title}</div>
-                <div>Description: {task.description}</div>
-                <div>Cadence: {task.cadence}</div>
-                <div>Quantity: {task.quantity}</div>
+            <div key={task.id} className="mt-1 ml-4 text-xs bg-gray-100 border-2 rounded-md">
+              <div className="p-1 ml-4 text-xs">
+                <div className="form-control">
+                  <label className="cursor-pointer label">
+                    <span className="label-text">{task.title}</span> 
+                    <input
+                      type="checkbox"
+                      className="bg-purple-600 toggle"
+                      checked={isChecked}
+                      onClick={() => setIsChecked(!isChecked)}
+                    />
+                  </label>
+                </div>
               </div>
             </div>
           ))}
           <div>
-            <Link href={`/goals/${goal.id}`}>
-              <div className="p-1 text-xs text-center text-purple-800">
-                View more
-              </div>
-            </Link>
+            <div className="text-center">
+              <Link href={`/goals/${goal.id}`}>
+                <button className="p-1 m-1 text-xs text-center rounded-sm">
+                  View more
+                </button>
+              </Link>
+            </div>
             <div className="text-end">
-              <button
+              {/* <button
                 className="m-1 text-white bg-purple-600 btn"
-                onClick={() => Route.push("/goals/editGoal")}
+                onClick={() => Route.push(`/goals/editGoal`)}
               >
                 Edit
-              </button>
+              </button> */}
               <button
                 className="m-1 text-white bg-red-600 btn"
                 onClick={() => deleteGoalMutation.mutateAsync({ id: goal.id })}
