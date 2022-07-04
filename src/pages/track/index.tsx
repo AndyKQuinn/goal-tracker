@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import AllGoalsWithTasksByUser from '../../components/Goal/GoalList'
+import UserGoalsWithTasks from '../../components/Goal/UserGoalsWithTasks'
 import GoalForm from '../../components/Goal/GoalForm'
 import TaskForm from '../../components/Task/TaskForm'
 
@@ -32,7 +32,7 @@ export default function Track() {
 
   return (
     <div>
-      <AllGoalsWithTasksByUser />
+      <UserGoalsWithTasks />
       <GoalForm />
       <TaskForm />
     </div>

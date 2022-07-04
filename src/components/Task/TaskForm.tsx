@@ -1,4 +1,4 @@
-import { useState } from 'react';
+// import { useState } from 'react';
 import { trpc } from '../../utils/trpc';
 import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
@@ -36,11 +36,11 @@ export default function TaskForm() {
     }
   });
 
-  const [ showOptions, setShowOptions ] = useState(false);
-  function toggleShowOptions(e: any) {
-    e.preventDefault();
-    setShowOptions(!showOptions)
-  }
+  // const [ showOptions, setShowOptions ] = useState(false);
+  // function toggleShowOptions(e: any) {
+  //   e.preventDefault();
+  //   setShowOptions(!showOptions)
+  // }
 
   const onSubmit = async (data: any) => {
     const input = data;
@@ -93,36 +93,6 @@ export default function TaskForm() {
               />
             </div>
           </div>
-          <div className="mt-4 text-xs text-end">
-            <button
-              className="p-1 text-white bg-gray-600 w-36"
-              onClick={(e: any) => toggleShowOptions(e)}>
-              {showOptions ? 'Hide More Options' : 'Show More Options'}
-            </button>
-          </div>
-          {showOptions && (
-            <>
-              <label className="block mt-4">
-                <select
-                  className="block w-full form-select"
-                  {...register("cadence")}
-                >
-                  <option value="daily" id="daily">Daily</option>
-                  <option value="weekly" id="weekly">Weekly</option>
-                </select>
-              </label>
-              <label className="block mt-4">
-                <select
-                  className="block w-full form-select"
-                  {...register("quantity")}
-                >
-                  <option value="1" id="1">1</option>
-                  <option value="2" id="2">2</option>
-                  <option value="3" id="3">3</option>
-                </select>
-              </label>
-            </>
-          )}
         </div>
         <input className="m-1 mt-4 text-white bg-purple-600 btn" type="submit" />
         {addGoal.error && (
@@ -132,3 +102,37 @@ export default function TaskForm() {
     </div>
   );
 }
+
+// saving until MVP functionaltiy is working
+// as i love to complicate the simple...
+
+{/* <div className="mt-4 text-xs text-end">
+  <button
+    className="p-1 text-white bg-gray-600 w-36"
+    onClick={(e: any) => toggleShowOptions(e)}>
+    {showOptions ? 'Hide More Options' : 'Show More Options'}
+  </button>
+</div>
+{showOptions && (
+  <>
+    <label className="block mt-4">
+      <select
+        className="block w-full form-select"
+        {...register("cadence")}
+      >
+        <option value="daily" id="daily">Daily</option>
+        <option value="weekly" id="weekly">Weekly</option>
+      </select>
+    </label>
+    <label className="block mt-4">
+      <select
+        className="block w-full form-select"
+        {...register("quantity")}
+      >
+        <option value="1" id="1">1</option>
+        <option value="2" id="2">2</option>
+        <option value="3" id="3">3</option>
+      </select>
+    </label>
+  </>
+)} */}

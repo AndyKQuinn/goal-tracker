@@ -18,9 +18,9 @@ export default function TaskList() {
       {tasksQuery.status === 'loading' && '(loading)'}
       {tasksQuery.data?.map((item) => (
         <article className="p-1" key={item.id}>
-          <h3 className="p-1 text-center text-white bg-blue-400">
+          <div className="p-1 text-center text-white bg-blue-400">
             {item.title}
-          </h3>
+          </div>
           <Link href={`/task/${item.id}`}>
             <div className="p-1 text-xs text-center text-blue-800">
               View more
