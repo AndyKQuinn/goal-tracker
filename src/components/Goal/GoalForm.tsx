@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
-import { trpc } from '../../utils/trpc';
+import { trpc } from '~/utils/trpc';
 import Router from 'next/router';
 
 export default function GoalForm() {

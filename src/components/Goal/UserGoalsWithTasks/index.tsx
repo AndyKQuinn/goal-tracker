@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
-import { trpc } from '../../../utils/trpc';
+import { trpc } from '~/utils/trpc';
 import Link from 'next/link';
+import Router from 'next/router';
 import { BsInfoCircle } from 'react-icons/bs'
 import { AiFillDelete } from 'react-icons/ai'
+import { IoIosAddCircle } from 'react-icons/io'
 import { UserTaskList } from '../../Task/TaskList'
 
 export default function UserGoalsWithTasks() {
   const utils = trpc.useContext();
-  const [ showActions, toggleShowActions] = useState(false)
+  const [ showGoalActions, toggleShowGoalActions] = useState(false)
+  const [ showTrackActions, toggleShowTrackActions ] = useState(false)
  
   const { user } = useUser();
   const id = user?.sub || ""
@@ -31,10 +34,38 @@ export default function UserGoalsWithTasks() {
   if (goalsQuery.status === "loading") return <div>Loading...</div>
 
   return (
-    <div className="p-1">
+    <div className="p-1 mt-1">
+      <div className="flex justify-end mr-1">
+        <IoIosAddCircle
+          className="mt-1 mr-1 text-purple-600 bg-white rounded-xl"
+          size="1.5rem"
+          onClick={() => toggleShowTrackActions(!showTrackActions)}
+        />
+      </div>
+      {showTrackActions && (
+        <div className="absolute mt-2 mr-2 right-10">
+          <div>
+            <button
+              className="p-4 mb-4 text-center text-white bg-gray-600 border-4 border-white right-12 rounded-xl"
+              onClick={() => Router.push("/goals/createGoal")}
+            >
+              Create Goal
+            </button>
+          </div>
+          <div>
+            <button
+              className="p-4 text-center text-white bg-gray-600 border-4 border-white right-12 rounded-xl"
+              onClick={() => Router.push("/tasks/createTask")}
+            >
+              Add Task
+            </button>
+          </div>
+        </div>
+      )}
       {goals?.map((goal) => {
+        console.log("GoalID: ", goal.id)
         return (
-          <article className="p-1 mt-1 border-2 border-purple-200 rounded-md shadow-md" key={goal.id}>
+          <article className="p-1 mt-4 border-2 border-purple-200 rounded-md shadow-md" key={goal.id}>
             <div className="flex items-center justify-between p-2 text-lg text-white bg-purple-600 border-2 rounded-md">
               <span>Goal: {goal.title}</span>
               <Link href={`/goals/${goal.id}`}>
@@ -44,14 +75,14 @@ export default function UserGoalsWithTasks() {
               </Link>
             </div>
             {goal?.tasks.map((task, index: number) => {
-              return <UserTaskList key={goal.id} index={index} taskId={task.id} />
+              return <UserTaskList key={task.id} index={index} taskId={task.id} />
             })}
             <div className="flex justify-end">
-              <button className="p-1 text-xs text-white" onClick={() => toggleShowActions(!showActions)}>
-                {showActions ? "Hide Actions" : "Show Actions"}
+              <button className="p-1 text-xs text-white" onClick={() => toggleShowGoalActions(!showGoalActions)}>
+                {showGoalActions ? "Hide Actions" : "Show Actions"}
               </button>
             </div>
-            {showActions && (
+            {showGoalActions && (
               <div className="flex justify-end">
                 {/* <button
                   className="m-1 text-white bg-purple-600 btn"
