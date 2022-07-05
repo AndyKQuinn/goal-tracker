@@ -16,7 +16,7 @@ export default function UserGoalsWithTasks() {
   const goalsQuery = trpc.useQuery(['goals.byUserId', { createdBy: id }])
   const goals = goalsQuery?.data || []
 
-  const deleteGoalMutation = trpc.useMutation(['goals.delete'], { 
+  const deleteGoal = trpc.useMutation(['goals.delete'], { 
     onSuccess: () => {
       utils.invalidateQueries('goals.byUserId')
     },
@@ -61,7 +61,7 @@ export default function UserGoalsWithTasks() {
                 </button> */}
                 <button
                   className="p-1 m-1 text-red-600"
-                  onClick={() => deleteGoalMutation.mutateAsync({ id: goal.id })}
+                  onClick={() => deleteGoal.mutateAsync({ id: goal.id })}
                 >
                   <AiFillDelete />
                 </button>

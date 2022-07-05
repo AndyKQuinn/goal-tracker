@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
 import Link from 'next/link';
 import { getDate } from 'date-fns'
-import id from 'date-fns/esm/locale/id/index.js';
 
 export default function TaskList() {
   const tasksQuery = trpc.useQuery(['tasks.all']);
@@ -42,15 +41,14 @@ interface IUserTaskList {
 
 export function UserTaskList(props: IUserTaskList) {
   const {
-    index,
+    // index,
     taskId
   } = props;
 
-      const today = new Date()
-
-  console.log("TaskID: ", taskId)
+  const today = new Date()
 
   const [ isChecked, setIsChecked ] = useState(false)
+  const [ taskEntryId, setTaskEntryId ] = useState("")
   const { data: taskData } = trpc.useQuery(['tasks.byId', { id: taskId }])
   const { data: taskEntriesData = [] } = trpc.useQuery(['taskEntry.byTaskId', { id: taskId }])
 
@@ -62,6 +60,18 @@ export function UserTaskList(props: IUserTaskList) {
     },
   });
 
+  const deleteTaskEntry = trpc.useMutation(['taskEntry.delete'], { 
+    onSuccess: () => {
+      utils.invalidateQueries('taskEntry.byTaskId')
+    },
+  })
+
+  useEffect(() => {
+    if (taskEntriesData) {
+      const id = taskEntriesData[0]?.id || "";
+      setTaskEntryId(id)
+    }
+  }, [taskEntriesData])
   console.log("*** TASK ENTRIES ***: ", taskEntriesData)
 
   // clunky way to get this working
@@ -76,39 +86,24 @@ export function UserTaskList(props: IUserTaskList) {
     const updatedTask = taskData || {id: ""}
     console.log("Updated Task: ", updatedTask)
 
-    // id        String   @id @default(uuid())
-    // date      DateTime @default(now())
-    // rating    Int?
-    // duration  Int?
-    // comment   String?
-    // createdAt DateTime @default(now())
-    // updatedAt DateTime @default(now())
-  
-    // Task   Task?   @relation(fields: [taskId], references: [id])
-    // taskId String?
-
-    //82184c41-d8f9-4dd3-9292-25d268448cad
-    //82184c41-d8f9-4dd3-9292-25d268448cad
-
     if (!isChecked && (taskEntriesData.length === 0)) {
       const taskEntry = {
         date: today,
-        createdAt: today,
         updatedAt: today,
         taskId: updatedTask.id,
       // rating: 3,
       // duration: figureOutLater,
       // comment: "Default Comment",
       }
-      console.log("Task Entry: ", taskEntry)
 
       await addTaskEntry.mutateAsync(taskEntry);
-      
-    //   updatedTask.datesCompleted = [...datesCompleted, selectedDate]
+
     } else {
-    //   const updatedDatesCompleted = updatedTask.datesCompleted.filter(
-    //     (date: any) => (date !== selectedDate),
-    //   )
+
+      await deleteTaskEntry.mutateAsync({ id: taskEntryId })
+      // const updatedDatesCompleted = updatedTask.datesCompleted.filter(
+      //   (date: any) => (date !== selectedDate),
+      // )
     //   updatedTask.datesCompleted = updatedDatesCompleted
     }
   }
