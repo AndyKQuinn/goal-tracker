@@ -63,8 +63,8 @@ export default function TaskForm() {
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label className="block mt-4 text-white">
-            <span>Choose a Goal</span>
+          <label className="block mt-4">
+            <div className="p-2 text-white">Choose a Goal</div>
             <select
               className="block w-full form-select"
               {...register("goalId")}
@@ -75,7 +75,7 @@ export default function TaskForm() {
               ))}
             </select>
           </label>
-          <div className="mt-4">
+          <div className="mt-10">
             <div className="mt-2">
               <input 
                 className="block w-full form-input"

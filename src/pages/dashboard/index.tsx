@@ -1,4 +1,4 @@
-import UserGoalsWithTasks from '../components/Goal/UserGoalsWithTasks';
+// import UserGoalsWithTasks from '~/components/Goal/UserGoalsWithTasks';
 // import Link from 'next/link'
 
 export default function Dashboard() {
@@ -7,7 +7,10 @@ export default function Dashboard() {
       <div className="p-2 text-lg text-center text-white bg-purple-600">
         Dashboard
       </div>
-      <UserGoalsWithTasks />
+      <div className="p-4 text-2xl text-center text-white">
+        Coming soon!
+      </div>
+      {/* <UserGoalsWithTasks /> */}
       {/* <div className="p-1 mt-6 text-center">
         <Link href="/goals/createGoal">
           <button

@@ -47,7 +47,7 @@ export function UserTaskList(props: IUserTaskList) {
   const today = new Date()
 
   const [ isChecked, setIsChecked ] = useState(false)
-  const [ taskEntryId, setTaskEntryId ] = useState("")
+  const [ taskEntryId, setTaskEntryId ] = useState<any>()
   const { data: taskData } = trpc.useQuery(['tasks.byId', { id: taskId }])
   const { data: taskEntriesData = [] } = trpc.useQuery(['taskEntry.byTaskId', { id: taskId }])
 
