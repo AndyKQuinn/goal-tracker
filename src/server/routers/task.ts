@@ -24,6 +24,7 @@ const defaultTaskSelect = Prisma.validator<Prisma.TaskSelect>()({
   createdAt: true,
   updatedAt: true,
   createdBy: true,
+  taskEntries: true,
 });
 
 export const taskRouter = createRouter()
@@ -38,6 +39,11 @@ export const taskRouter = createRouter()
       quantity: z.number(),
       cadence: z.string().min(1),
       createdBy: z.string().min(1),
+      taskEntries: z.array(
+        z.object({
+
+        })
+      )
     }),
     async resolve({ input }) {
       const task = await prisma.task.create({

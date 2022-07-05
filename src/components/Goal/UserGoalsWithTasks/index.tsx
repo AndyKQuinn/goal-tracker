@@ -6,13 +6,8 @@ import { BsInfoCircle } from 'react-icons/bs'
 import { AiFillDelete } from 'react-icons/ai'
 import { UserTaskList } from '../../Task/TaskList'
 
-// interface IUserGoalsWithTasksProps {
-//   showTaskActions: boolean;
-// }
-
 export default function UserGoalsWithTasks() {
   const utils = trpc.useContext();
-  const [ isChecked, setIsChecked ] = useState(false)
   const [ showActions, toggleShowActions] = useState(false)
  
   const { user } = useUser();
@@ -26,20 +21,6 @@ export default function UserGoalsWithTasks() {
       utils.invalidateQueries('goals.byUserId')
     },
   })
-
-  // const Task = (task) => {
-  //   return (
-  //     <div key={task.id} className="flex justify-between mt-1 ml-4 bg-gray-100 border-2 rounded-md text-md form-input form-control">
-  //       {task.title}
-  //       <input
-  //         type="checkbox"
-  //         className="bg-purple-600 toggle"
-  //         checked={isChecked}
-  //         onChange={() => setIsChecked(!isChecked)}
-  //       />
-  //     </div>
-  //   )
-  // }
 
   useEffect(() => {
     for (const { id } of goalsQuery.data ?? []) {
@@ -63,18 +44,7 @@ export default function UserGoalsWithTasks() {
               </Link>
             </div>
             {goal?.tasks.map((task, index: number) => {
-              return (
-                <UserTaskList key={goal.id} index={index} taskId={task.id} />
-              )
-              // <div key={task.id} className="flex justify-between mt-1 ml-4 bg-gray-100 border-2 rounded-md text-md form-input form-control">
-              //   {task.title}
-              //   <input
-              //     type="checkbox"
-              //     className="bg-purple-600 toggle"
-              //     checked={isChecked}
-              //     onChange={() => setIsChecked(!isChecked)}
-              //   />
-              // </div>
+              return <UserTaskList key={goal.id} index={index} taskId={task.id} />
             })}
             <div className="flex justify-end">
               <button className="p-1 text-xs text-white" onClick={() => toggleShowActions(!showActions)}>

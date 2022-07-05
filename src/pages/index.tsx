@@ -1,7 +1,7 @@
 // import { trpc } from '../utils/trpc';
 import { NextPageWithLayout } from './_app';
 import { useUser } from '@auth0/nextjs-auth0';
-import Dashboard from './dashboard';
+import Track from './track';
 import Landing from './landing';
 
 const IndexPage: NextPageWithLayout = () => {
@@ -19,7 +19,7 @@ const IndexPage: NextPageWithLayout = () => {
   //   }
   // }, [postsQuery.data, utils]);
 
-  if (user) return <Dashboard />;
+  if (user) return <Track />;
   return <Landing />;
 };
 

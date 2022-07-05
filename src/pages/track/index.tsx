@@ -31,10 +31,11 @@ export default function Track() {
   }
 
   return (
-    <div>
+    <>
+      <div className="p-2 text-lg text-center text-white bg-purple-600">
+        Track
+      </div>
       <UserGoalsWithTasks />
-      {/* <GoalForm /> */}
-      <TaskForm />
-    </div>
+    </>
   );
 }

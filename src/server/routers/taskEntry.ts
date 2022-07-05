@@ -25,7 +25,7 @@
   // create
   .mutation('add', {
     input: z.object({
-      id: z.string().uuid(),
+      id: z.string().uuid().optional(),
       taskId: z.string(),
       date: z.date(),
       rating: z.number().optional(),
@@ -70,6 +70,25 @@
         });
       }
       return taskEntry;
+    },
+  })
+  .query('byTaskId', {
+    input: z.object({
+      id: z.string(),
+    }),
+    async resolve({ input }) {
+      const { id } = input;
+      const taskEntries = await prisma.taskEntry.findMany({
+        where: { taskId: id },
+        select: defaultTaskEntrySelect,
+      });
+      if (!taskEntries) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: `No taskEntries with taskId '${id}'`,
+        });
+      }
+      return taskEntries;
     },
   })
   // update

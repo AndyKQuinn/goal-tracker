@@ -31,16 +31,16 @@ function Nav() {
               <div className="hidden md:block">
                 <div className="flex items-baseline ml-10 space-x-4">
                   <Link
-                    href="/"
-                    className="px-3 py-2 text-sm font-medium rounded-md hover:bg-gray-700"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
                     href="/track"
                     className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
                     Track
+                  </Link>
+                  <Link
+                    href="/"
+                    className="px-3 py-2 text-sm font-medium rounded-md hover:bg-gray-700"
+                  >
+                    Dashboard
                   </Link>
                   <Link
                     href="/profile"
@@ -117,16 +117,16 @@ function Nav() {
             <div className="md:hidden" id="mobile-menu">
               <div className="flex flex-col px-2 pt-3 pb-4 space-y-1 text-lg text-center sm:px-3">
                 <Link
-                  href="/"
-                  className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
-                >
-                  Dashboard
-                </Link>
-                <Link
                   href="/track"
                   className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                 >
                   Track
+                </Link>
+                <Link
+                  href="/"
+                  className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
+                >
+                  Dashboard
                 </Link>
                 <Link
                   href="/profile"

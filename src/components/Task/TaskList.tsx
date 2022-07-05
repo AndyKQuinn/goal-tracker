@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
 import Link from 'next/link';
+import { getDate } from 'date-fns'
+import id from 'date-fns/esm/locale/id/index.js';
 
 export default function TaskList() {
   const tasksQuery = trpc.useQuery(['tasks.all']);
@@ -39,35 +41,95 @@ interface IUserTaskList {
 }
 
 export function UserTaskList(props: IUserTaskList) {
-  const { index, taskId } = props;
+  const {
+    index,
+    taskId
+  } = props;
 
-  console.log("Index: ", index, " : GoalID: ", taskId)
+      const today = new Date()
+
+  console.log("TaskID: ", taskId)
 
   const [ isChecked, setIsChecked ] = useState(false)
-  // const tasksQuery = trpc.useQuery(['tasks.byGoalId', { id: goalId }]) || [];
-  const { data } = trpc.useQuery(['tasks.byId', { id: taskId }])
-  // const tasks = tasksQuery?.data || []
+  const { data: taskData } = trpc.useQuery(['tasks.byId', { id: taskId }])
+  const { data: taskEntriesData = [] } = trpc.useQuery(['taskEntry.byTaskId', { id: taskId }])
 
-  console.log("TasksQuery.Data: ", data)
-  // console.log("Task?: ", tasksQuery?.data.task)
+  const utils = trpc.useContext();
+
+  const addTaskEntry = trpc.useMutation('taskEntry.add', {
+    async onSuccess() {
+      await utils.invalidateQueries(['tasks.byId']);
+    },
+  });
+
+  console.log("*** TASK ENTRIES ***: ", taskEntriesData)
+
+  // clunky way to get this working
+  // TODO: make this better for when cadence/quantity are implemented
+  useEffect(() => {
+    if (taskEntriesData.length > 0) {
+      setIsChecked(true)
+    }
+  }, [taskEntriesData])
   
-  // return (
-  //   <div>
+  async function updateTaskEntry() {
+    const updatedTask = taskData || {id: ""}
+    console.log("Updated Task: ", updatedTask)
 
-  //   </div>
-  // )
+    // id        String   @id @default(uuid())
+    // date      DateTime @default(now())
+    // rating    Int?
+    // duration  Int?
+    // comment   String?
+    // createdAt DateTime @default(now())
+    // updatedAt DateTime @default(now())
+  
+    // Task   Task?   @relation(fields: [taskId], references: [id])
+    // taskId String?
 
-  if (!data) return <div>Loading...</div>
+    //82184c41-d8f9-4dd3-9292-25d268448cad
+    //82184c41-d8f9-4dd3-9292-25d268448cad
 
-  // return data.map((task) => {
+    if (!isChecked && (taskEntriesData.length === 0)) {
+      const taskEntry = {
+        date: today,
+        createdAt: today,
+        updatedAt: today,
+        taskId: updatedTask.id,
+      // rating: 3,
+      // duration: figureOutLater,
+      // comment: "Default Comment",
+      }
+      console.log("Task Entry: ", taskEntry)
+
+      await addTaskEntry.mutateAsync(taskEntry);
+      
+    //   updatedTask.datesCompleted = [...datesCompleted, selectedDate]
+    } else {
+    //   const updatedDatesCompleted = updatedTask.datesCompleted.filter(
+    //     (date: any) => (date !== selectedDate),
+    //   )
+    //   updatedTask.datesCompleted = updatedDatesCompleted
+    }
+  }
+
+  function handleChange() {
+    updateTaskEntry()
+    setIsChecked(!isChecked)
+  }
+
+  console.log("TasksQuery.Data: ", taskData)
+
+  if (!taskData) return <div>Loading...</div>
+
     return (
-      <div key={data.id} className="flex justify-between mt-1 ml-4 bg-gray-100 border-2 rounded-md text-md form-input form-control">
-        {data.title}
+      <div key={taskData.id} className="flex justify-between mt-1 ml-4 bg-gray-100 border-2 rounded-md text-md form-input form-control">
+        {taskData.title}
         <input
           type="checkbox"
           className="bg-purple-600 toggle"
           checked={isChecked}
-          onChange={() => setIsChecked(!isChecked)}
+          onChange={handleChange}
         />
       </div>
     )

@@ -8,7 +8,7 @@ type DefaultLayoutProps = { children: ReactNode };
 
 export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
-    <>
+    <div className="h-screen bg-gray-700">
       <Head>
         <title>Wakka Tracker</title>
         <link rel="icon" href="/favicon.ico" />
@@ -25,6 +25,6 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       {process.env.NODE_ENV !== 'production' && (
         <ReactQueryDevtools initialIsOpen={false} />
       )}
-    </>
+    </div>
   );
 };
