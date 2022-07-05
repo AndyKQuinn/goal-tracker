@@ -17,7 +17,7 @@ module.exports = {
   },
   plugins: [
       require('@tailwindcss/custom-forms'),
-      require('daisyui'),
+      // require('daisyui'),
     {
       tailwindcss: {
         config: join(__dirname, 'tailwind.config.js'),

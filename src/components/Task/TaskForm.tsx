@@ -31,7 +31,7 @@ export default function TaskForm() {
       description: "",
       quantity: 1,
       cadence: "daily",
-      goalId: "",
+      // goalId: "Select a goal",
       taskEntities: [],
     }
   });
@@ -57,19 +57,19 @@ export default function TaskForm() {
   };
 
   return (
-    <div className="p-2 m-1 text-center border-2 border-gray-100 rounded-md">
+    <div className="p-2 mx-1 text-center border-2 rounded-md">
       <div className="p-1 mb-1 text-xl text-white bg-purple-600 border-2 rounded-md">
         Add Tasks
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div>
-          <label className="block mt-4">
+          <label className="block mt-4 text-white">
             <span>Choose a Goal</span>
             <select
               className="block w-full form-select"
               {...register("goalId")}
             >
-              <option key="" value="">Select one...</option>
+              <option key="default" value="default">Select one...</option>
               {goalsQuery.data?.map((goal) => (
                 <option key={goal.id} value={goal.id}>{goal.title}</option>
               ))}

@@ -15,7 +15,11 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
       </Head>
 
       <Navbar />
-      <main>{children}</main>
+      <main
+        className="h-full bg-gray-700"
+      >
+        {children}
+      </main>
       {/* <Footer /> */}
 
       {process.env.NODE_ENV !== 'production' && (
