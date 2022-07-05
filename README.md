@@ -1,6 +1,6 @@
 # Wakka Tracker
 
-Goal tracking application built on Next.js, Prisma, Postgres, Zod and tRPC.
+Goal tracking application built on Next.js, Tailwind, Prisma, Postgres, Zod and tRPC. Special appearances by Font Awesome and whatever other libraries I feel like adding in.
 
 ### Requirements
 

@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
-import AllGoalsWithTasksByUser from '../../components/Goal/GoalList'
-import GoalForm from '../../components/Goal/GoalForm'
-import TaskForm from '../../components/Task/TaskForm'
+import UserGoalsWithTasks from '../../components/Goal/UserGoalsWithTasks'
+// import GoalForm from '../../components/Goal/GoalForm'
+// import TaskForm from '../../components/Task/TaskForm'
 
 import { trpc } from '../../utils/trpc';
 import { useUser } from '@auth0/nextjs-auth0';
@@ -31,10 +31,11 @@ export default function Track() {
   }
 
   return (
-    <div>
-      <AllGoalsWithTasksByUser />
-      <GoalForm />
-      <TaskForm />
-    </div>
+    <>
+      <div className="p-2 text-lg text-center text-white bg-purple-600">
+        Track
+      </div>
+      <UserGoalsWithTasks />
+    </>
   );
 }
