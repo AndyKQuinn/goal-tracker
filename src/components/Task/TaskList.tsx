@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
 import Link from 'next/link';
-import { getDate } from 'date-fns'
 
 export default function TaskList() {
   const tasksQuery = trpc.useQuery(['tasks.all']);

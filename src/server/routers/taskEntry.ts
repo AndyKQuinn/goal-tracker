@@ -1,28 +1,23 @@
+import { Prisma } from '@prisma/client';
+import { TRPCError } from '@trpc/server';
+import { z } from 'zod';
+import { createRouter } from '~/server/createRouter';
+import { prisma } from '~/server/prisma';
+ 
 /**
- *
- * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
- */
- import { Prisma } from '@prisma/client';
- import { TRPCError } from '@trpc/server';
- import { z } from 'zod';
- import { createRouter } from '~/server/createRouter';
- import { prisma } from '~/server/prisma';
+* Default selector for TaskEntry.
+* It's important to always explicitly say which fields you want to return in order to not leak extra information
+* @see https://github.com/prisma/prisma/issues/9353
+*/
+const defaultTaskEntrySelect = Prisma.validator<Prisma.TaskEntrySelect>()({
+  id: true,
+  taskId: true,
+  date: true,
+  createdAt: true,
+  updatedAt: true,
+});
  
- /**
- * Default selector for TaskEntry.
- * It's important to always explicitly say which fields you want to return in order to not leak extra information
- * @see https://github.com/prisma/prisma/issues/9353
- */
- const defaultTaskEntrySelect = Prisma.validator<Prisma.TaskEntrySelect>()({
-   id: true,
-   taskId: true,
-   date: true,
-   createdAt: true,
-   updatedAt: true,
- });
- 
- export const taskEntryRouter = createRouter()
-  // create
+export const taskEntryRouter = createRouter()
   .mutation('add', {
     input: z.object({
       id: z.string().uuid().optional(),
@@ -40,7 +35,7 @@
       return taskEntry;
     },
   })
-  // read
+
   .query('all', {
     async resolve() {
       /**
@@ -53,6 +48,7 @@
       });
     },
   })
+
   .query('byId', {
     input: z.object({
       id: z.string(),
@@ -72,6 +68,7 @@
       return taskEntry;
     },
   })
+
   .query('byTaskId', {
     input: z.object({
       id: z.string(),
@@ -91,7 +88,7 @@
       return taskEntries;
     },
   })
-  // update
+
   .mutation('edit', {
     input: z.object({
       id: z.string().uuid(),
@@ -113,7 +110,7 @@
       return taskEntry;
     },
   })
-  // delete
+
   .mutation('delete', {
     input: z.object({
       id: z.string(),
@@ -125,4 +122,5 @@
         id,
       };
     },
-  });
+  }
+);

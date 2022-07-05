@@ -1,7 +1,3 @@
-/**
- *
- * This is an example router, you can delete this file and then update `../pages/api/trpc/[trpc].tsx`
- */
 import { Prisma } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
@@ -53,7 +49,7 @@ export const taskRouter = createRouter()
       return task;
     },
   })
-  // read
+
   .query('all', {
     async resolve() {
       /**
@@ -66,6 +62,7 @@ export const taskRouter = createRouter()
       });
     },
   })
+
   .query('byId', {
     input: z.object({
       id: z.string(),
@@ -85,6 +82,7 @@ export const taskRouter = createRouter()
       return task;
     },
   })
+
   .query('byGoalId', {
     input: z.object({
       id: z.string(),
@@ -104,6 +102,7 @@ export const taskRouter = createRouter()
       return task;
     },
   })
+
   .query('byUserId', {
     input: z.object({
       createdBy: z.string(),
@@ -123,7 +122,7 @@ export const taskRouter = createRouter()
       return goal;
     },
   })
-  // update
+
   .mutation('edit', {
     input: z.object({
       id: z.string().uuid(),
@@ -142,7 +141,7 @@ export const taskRouter = createRouter()
       return task;
     },
   })
-  // delete
+
   .mutation('delete', {
     input: z.object({
       id: z.string(),
@@ -154,4 +153,5 @@ export const taskRouter = createRouter()
         id,
       };
     },
-  });
+  }
+);
