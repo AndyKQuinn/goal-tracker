@@ -43,18 +43,16 @@ export default function UserGoalsWithTasks() {
         />
       </div>
       {showTrackActions && (
-        <div className="absolute mt-2 mr-2 right-10">
-          <div>
+        <div className="absolute p-8 mt-2 mr-2 bg-gray-800 border-4 rounded-lg right-10">
+          <div className="flex flex-col">
             <button
-              className="p-4 mb-4 text-center text-white bg-gray-600 border-4 border-white right-12 rounded-xl"
+              className="p-4 mb-6 text-2xl text-center text-white bg-purple-600 border-4 border-white right-12 rounded-xl"
               onClick={() => Router.push("/goals/createGoal")}
             >
               Create Goal
             </button>
-          </div>
-          <div>
             <button
-              className="p-4 text-center text-white bg-gray-600 border-4 border-white right-12 rounded-xl"
+              className="p-4 text-2xl text-center text-white bg-purple-600 border-4 border-white right-12 rounded-xl"
               onClick={() => Router.push("/tasks/createTask")}
             >
               Add Task
@@ -66,7 +64,7 @@ export default function UserGoalsWithTasks() {
         console.log("GoalID: ", goal.id)
         return (
           <article className="p-1 mt-4 border-2 border-purple-200 rounded-md shadow-md" key={goal.id}>
-            <div className="flex items-center justify-between p-2 text-lg text-white bg-purple-600 border-2 rounded-md">
+            <div className="flex items-center justify-between p-2 text-2xl text-white bg-purple-600 border-2 rounded-md">
               <span>Goal: {goal.title}</span>
               <Link href={`/goals/${goal.id}`}>
                 <button>
@@ -78,7 +76,7 @@ export default function UserGoalsWithTasks() {
               return <UserTaskList key={task.id} index={index} taskId={task.id} />
             })}
             <div className="flex justify-end">
-              <button className="p-1 text-xs text-white" onClick={() => toggleShowGoalActions(!showGoalActions)}>
+              <button className="p-1 font-serif text-xl text-white" onClick={() => toggleShowGoalActions(!showGoalActions)}>
                 {showGoalActions ? "Hide Actions" : "Show Actions"}
               </button>
             </div>

@@ -32,7 +32,7 @@ export default function Track() {
 
   return (
     <>
-      <div className="p-2 text-lg text-center text-white bg-purple-600">
+      <div className="p-2 m-2 font-serif text-4xl tracking-wider text-center text-white border-b-4 border-b-purple-900">
         Track
       </div>
       <UserGoalsWithTasks />

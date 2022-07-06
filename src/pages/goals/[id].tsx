@@ -8,7 +8,11 @@ import { trpc } from '~/utils/trpc';
 const GoalViewPage: NextPageWithLayout = () => {
   const [editGoal, setEditGoal] = useState(false)
 
-  const { register, handleSubmit, reset } = useForm();
+  const {
+    register,
+    // handleSubmit,
+    // reset,
+  } = useForm();
 
   const id = useRouter().query.id as string;
   const goalQuery = trpc.useQuery(['goals.byGoalId', { id }]);
@@ -30,8 +34,8 @@ const GoalViewPage: NextPageWithLayout = () => {
   const { data } = goalQuery;
 
   return (
-    <div className="m-2 bg-purple-300">
-      <div className="p-2 text-xl text-center">
+    <div className="m-2">
+      <div className="p-2 m-2 font-serif text-4xl tracking-wider text-center text-white border-b-4 border-b-purple-900">
         Goal Details
       </div>
       <div className="text-end">
@@ -39,35 +43,35 @@ const GoalViewPage: NextPageWithLayout = () => {
           {editGoal ? "Cancel" : "Edit"}
         </button>
       </div>
-      <div className="p-4 bg-green-100">
-        <div className="p-1 bg-gray-200">
-          Title: {' '}
-          <input
-            className="w-full form-input"
-            value={data.title}
-            {...register("title")}
-            disabled={!editGoal}
-          />
+      <div className="text-2xl text-center">
+        <div className="m-2 text-white">
+          Title
+        <input
+          className="w-full mt-2 form-input"
+          value={data.title}
+          {...register("title")}
+          disabled={!editGoal}
+        />
         </div>
-        <div className="p-1 bg-gray-200">
-          Description:{' '}
+        <div className="m-2 text-white">
+          Description
           <input
-            className="w-full form-input"
+            className="w-full mt-2 mb-4 form-input"
             value={data.description}
             {...register("description")}
             disabled={!editGoal}
           />
         </div>
-        <div className="p-2 text-xl text-center bg-blue-100">
+        <div className="p-2 mt-4 text-3xl text-center text-white border-4 border-purple-600">
           Tasks
         </div>
         {tasks?.map((task) => (
           <div
             key={task.id}
-            className="p-1 mt-3 bg-blue-300"
+            className="p-1 mt-3 text-2xl text-center text-white"
           >
-            <div className="p-1 bg-gray-300">
-              Title: {' '}
+            <div className="p-2">
+              Title
               <input
                 className="w-full form-input"
                 value={task.title}
@@ -75,8 +79,8 @@ const GoalViewPage: NextPageWithLayout = () => {
                 disabled={!editGoal}
               />
             </div>
-            <div className="p-1 bg-gray-300">
-              Description: {' '}
+            <div className="p-2">
+              Description
               <input
                 className="w-full form-input"
                 value={task.description}
@@ -84,8 +88,8 @@ const GoalViewPage: NextPageWithLayout = () => {
                 disabled={!editGoal}
               />
             </div>
-            <div className="p-1 bg-gray-300">
-              Cadence: {' '}
+            <div className="p-2">
+              Cadence
               <input
                 className="w-full form-input"
                 value={task.cadence}
@@ -93,8 +97,8 @@ const GoalViewPage: NextPageWithLayout = () => {
                 disabled={!editGoal}
               />
             </div>
-            <div className="p-1 bg-gray-300">
-              Quantity: {' '}
+            <div className="p-2">
+              Quantity
               <input
                 className="w-full form-input"
                 value={task.quantity}

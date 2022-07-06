@@ -8,7 +8,7 @@ type DefaultLayoutProps = { children: ReactNode };
 
 export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
   return (
-    <div className="h-screen bg-gray-700">
+    <div className="h-screen bg-gray-900">
       <Head>
         <title>Wakka Tracker</title>
         <link rel="icon" href="/favicon.ico" />
@@ -16,7 +16,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
 
       <Navbar />
       <main
-        className="h-full bg-gray-700"
+        className="h-full bg-gray-900"
       >
         {children}
       </main>
