@@ -25,11 +25,13 @@ export default function UserGoalsWithTasks() {
     },
   })
 
-  useEffect(() => {
-    for (const { id } of goalsQuery.data ?? []) {
-      utils.prefetchQuery(['goals.byGoalId', { id }]);
-    }
-  }, [goalsQuery, utils])
+  // useEffect(() => {
+  //   if (goalsQuery?.data.length > 0) {
+  //     for (const { id } of goalsQuery.data ?? []) {
+  //       utils.prefetchQuery(['goals.byGoalId', { id }]);
+  //     }
+  //   }
+  // }, [goalsQuery, utils])
   
   if (goalsQuery.status === "loading") return <div>Loading...</div>
 
@@ -61,7 +63,6 @@ export default function UserGoalsWithTasks() {
         </div>
       )}
       {goals?.map((goal) => {
-        console.log("GoalID: ", goal.id)
         return (
           <article className="p-1 mt-4 border-2 border-purple-200 rounded-md shadow-md" key={goal.id}>
             <div className="flex items-center justify-between p-2 text-2xl text-white bg-purple-600 border-2 rounded-md">
