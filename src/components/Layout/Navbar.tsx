@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import Image from 'next/image';
 import { Transition } from '@headlessui/react';
+import { GiQueenCrown } from 'react-icons/gi';
 
 function Nav() {
   const router = useRouter();
@@ -12,24 +12,19 @@ function Nav() {
   
   return (
     <div>
-      <nav className="text-white bg-gray-800">
+      <nav className="text-white from-purple-600 bg-gradient-to-r to-purple-900">
         <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <Link href="/">
-                  <a>
-                    <Image
-                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                      alt="Brand Image"
-                      height="32"
-                      width="32"
-                    />
-                  </a>
+                  <GiQueenCrown 
+                    className="text-5xl"
+                  />
                 </Link>
               </div>
               <div className="hidden md:block">
-                <div className="flex items-baseline ml-10 space-x-4">
+                <div className="flex items-baseline ml-10 text-2xl tracking-wider space-x-7">
                   <Link
                     href="/"
                     className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
@@ -52,7 +47,7 @@ function Nav() {
                     href="/api/auth/logout"
                     className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
-                    Log Out
+                    Logout
                   </Link>
                 </div>
               </div>
@@ -115,32 +110,39 @@ function Nav() {
         >
           {() => (
             <div className="md:hidden" id="mobile-menu">
-              <div className="flex flex-col px-2 pt-3 pb-4 space-y-1 text-lg text-center sm:px-3">
-                <Link
-                  href="/"
-                  className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                >
-                  Track
-                </Link>
-                <Link
-                  href="/dashboard"
-                  className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
-                >
-                  Dashboard
-                </Link>
-                <Link
-                  href="/profile"
-                  className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                >
-                  Profile
-                </Link>
-                <div className="p-2" />
-                <Link
-                  href="/api/auth/logout"
-                  className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                >
-                  Log Out
-                </Link>
+              <div className="flex flex-col p-2 px-2 pt-3 pb-4 space-y-1 text-4xl text-center sm:px-3">
+                <div className="p-2 mb-4">
+                  <Link
+                    href="/"
+                    className="block font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+                  >
+                    Track
+                  </Link>
+                </div>
+                <div className="p-4">
+                  <Link
+                    href="/dashboard"
+                    className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
+                  >
+                    Dashboard
+                  </Link>
+                </div>
+                <div className="p-4">
+                  <Link
+                    href="/profile"
+                    className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+                  >
+                    Profile
+                  </Link>
+                </div>
+                <div className="p-4">
+                  <Link
+                    href="/api/auth/logout"
+                    className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+                  >
+                    Log Out
+                  </Link>
+                </div>
               </div>
             </div>
           )}

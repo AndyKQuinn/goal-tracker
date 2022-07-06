@@ -117,7 +117,7 @@ export function UserTaskList(props: IUserTaskList) {
   if (!taskData) return <div>Loading...</div>
 
     return (
-      <div key={taskData.id} className="flex justify-between mt-1 ml-4 bg-gray-100 border-2 rounded-md text-md form-input form-control">
+      <div key={taskData.id} className="flex justify-between mt-2 ml-4 text-2xl bg-gray-100 border-2 rounded-md form-input form-control">
         {taskData.title}
         <input
           type="checkbox"
