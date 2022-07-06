@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { trpc } from '../../utils/trpc';
 import Link from 'next/link';
+import { FaToggleOff, FaToggleOn } from 'react-icons/fa'
 
 export default function TaskList() {
   const tasksQuery = trpc.useQuery(['tasks.all']);
@@ -46,6 +47,7 @@ export function UserTaskList(props: IUserTaskList) {
 
   const today = new Date()
 
+  const [ isDisabled, toggleIsDisabled ] = useState(false)
   const [ isChecked, setIsChecked ] = useState(false)
   const [ taskEntryId, setTaskEntryId ] = useState("")
   const { data: taskData } = trpc.useQuery(['tasks.byId', { id: taskId }])
@@ -56,12 +58,14 @@ export function UserTaskList(props: IUserTaskList) {
   const addTaskEntry = trpc.useMutation('taskEntry.add', {
     async onSuccess() {
       await utils.invalidateQueries(['tasks.byId']);
+      await utils.invalidateQueries(['taskEntry.byTaskId']);
     },
   });
 
   const deleteTaskEntry = trpc.useMutation(['taskEntry.delete'], { 
-    onSuccess: () => {
-      utils.invalidateQueries('taskEntry.byTaskId')
+    async onSuccess() {
+      await utils.invalidateQueries('taskEntry.byTaskId')
+      await utils.invalidateQueries(['taskEntry.byTaskId']);
     },
   })
 
@@ -71,7 +75,6 @@ export function UserTaskList(props: IUserTaskList) {
       setTaskEntryId(id)
     }
   }, [taskEntriesData])
-  console.log("*** TASK ENTRIES ***: ", taskEntriesData)
 
   // clunky way to get this working
   // TODO: make this better for when cadence/quantity are implemented
@@ -83,7 +86,6 @@ export function UserTaskList(props: IUserTaskList) {
   
   async function updateTaskEntry() {
     const updatedTask = taskData || {id: ""}
-    console.log("Updated Task: ", updatedTask)
 
     if (!isChecked && (taskEntriesData.length === 0)) {
       const taskEntry = {
@@ -95,11 +97,11 @@ export function UserTaskList(props: IUserTaskList) {
       // comment: "Default Comment",
       }
 
-      await addTaskEntry.mutateAsync(taskEntry);
+      addTaskEntry.mutateAsync(taskEntry);
 
     } else {
 
-      await deleteTaskEntry.mutateAsync({ id: taskEntryId })
+      deleteTaskEntry.mutateAsync({ id: taskEntryId })
       // const updatedDatesCompleted = updatedTask.datesCompleted.filter(
       //   (date: any) => (date !== selectedDate),
       // )
@@ -107,25 +109,47 @@ export function UserTaskList(props: IUserTaskList) {
     }
   }
 
-  function handleChange() {
-    updateTaskEntry()
+  async function handleChange() {
+    toggleIsDisabled(true)
+    await updateTaskEntry()
     setIsChecked(!isChecked)
+    toggleIsDisabled(false)
   }
-
-  console.log("TasksQuery.Data: ", taskData)
 
   if (!taskData) return <div>Loading...</div>
 
-    return (
+  return (
+    <>
       <div key={taskData.id} className="flex justify-between mt-2 ml-4 text-2xl bg-gray-100 border-2 rounded-md form-input form-control">
         {taskData.title}
-        <input
+        {isChecked ? (
+          <button
+            disabled={isDisabled}
+          >
+            <FaToggleOn
+              size="2.5rem"
+              className="text-purple-600 toggle"
+              onClick={handleChange}
+            />
+          </button>
+        ) : (
+          <button
+            disabled={isDisabled}
+          >
+            <FaToggleOff
+              size="2.5rem"
+              className="text-purple-600 toggle"
+              onClick={handleChange}
+            />
+          </button>
+        )}
+        {/* <input
           type="checkbox"
           className="bg-purple-600 toggle"
           checked={isChecked}
           onChange={handleChange}
-        />
+        /> */}
       </div>
-    )
-  // })
+    </>
+  )
 }
