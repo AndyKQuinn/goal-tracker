@@ -18,9 +18,11 @@ function Nav() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <Link href="/">
-                  <GiQueenCrown 
-                    className="text-5xl"
-                  />
+                  <a>
+                    <GiQueenCrown 
+                      className="text-5xl"
+                    />
+                  </a>
                 </Link>
               </div>
               <div className="hidden md:block">

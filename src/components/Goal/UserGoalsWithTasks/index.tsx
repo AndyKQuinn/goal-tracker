@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useUser } from '@auth0/nextjs-auth0';
 import { trpc } from '~/utils/trpc';
 import Link from 'next/link';
@@ -6,7 +6,8 @@ import Router from 'next/router';
 import { BsInfoCircle } from 'react-icons/bs'
 import { AiFillDelete } from 'react-icons/ai'
 import { IoIosAddCircle } from 'react-icons/io'
-import { UserTaskList } from '../../Task/TaskList'
+import { UserTaskList } from '~/components/Task/TaskList'
+import DatePicker from '~/components/shared/DatePicker'
 
 export default function UserGoalsWithTasks() {
   const utils = trpc.useContext();
@@ -39,13 +40,16 @@ export default function UserGoalsWithTasks() {
     <div className="p-1 mt-1">
       <div className="flex justify-end mr-1">
         <IoIosAddCircle
-          className="mt-1 mr-1 text-purple-600 bg-white rounded-xl"
-          size="1.5rem"
+          className="mt-1 mr-1 text-purple-600 bg-white rounded-3xl"
+          size="3rem"
           onClick={() => toggleShowTrackActions(!showTrackActions)}
         />
       </div>
+      <div>
+        <DatePicker />
+      </div>
       {showTrackActions && (
-        <div className="absolute p-8 mt-2 mr-2 bg-gray-800 border-4 rounded-lg right-10">
+        <div className="absolute p-8 mt-2 mr-2 bg-gray-800 border-4 rounded-lg right-12">
           <div className="flex flex-col">
             <button
               className="p-4 mb-6 text-2xl text-center text-white bg-purple-600 border-4 border-white right-12 rounded-xl"
@@ -66,7 +70,7 @@ export default function UserGoalsWithTasks() {
         return (
           <article className="p-1 mt-4 border-2 border-purple-200 rounded-md shadow-md" key={goal.id}>
             <div className="flex items-center justify-between p-2 text-2xl text-white bg-purple-600 border-2 rounded-md">
-              <span>Goal: {goal.title}</span>
+              <span className="ml-2">{goal.title}</span>
               <Link href={`/goals/${goal.id}`}>
                 <button>
                   <BsInfoCircle />
