@@ -10,8 +10,10 @@ import { DefaultLayout } from '~/components/Layout/DefaultLayout';
 import { AppRouter } from '~/server/routers/_app';
 import { SSRContext } from '~/utils/trpc';
 import { UserProvider } from '@auth0/nextjs-auth0';
+import { ThemeProvider } from '@material-tailwind/react';
 import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
+import '../styles/components.css';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -27,7 +29,9 @@ const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
 
   return getLayout(
     <UserProvider>
-      <Component {...pageProps} />
+      <ThemeProvider>
+        <Component {...pageProps} />
+      </ThemeProvider>
     </UserProvider>,
   );
 }) as AppType;

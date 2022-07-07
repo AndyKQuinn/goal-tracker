@@ -45,9 +45,7 @@ export default function UserGoalsWithTasks() {
           onClick={() => toggleShowTrackActions(!showTrackActions)}
         />
       </div>
-      <div>
-        <DatePicker />
-      </div>
+      <DatePicker />
       {showTrackActions && (
         <div className="absolute p-8 mt-2 mr-2 bg-gray-800 border-4 rounded-lg right-12">
           <div className="flex flex-col">

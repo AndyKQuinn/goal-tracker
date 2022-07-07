@@ -1,14 +1,19 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const { join } = require('path');
 const plugin = require('tailwindcss/plugin')
+const withMT = require("@material-tailwind/react/utils/withMT");
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+module.exports = withMT({
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
+    colors: {
+
+    },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
@@ -46,4 +51,4 @@ module.exports = {
       })
     })
   ],
-}
+})
