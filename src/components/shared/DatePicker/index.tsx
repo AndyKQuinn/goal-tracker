@@ -35,6 +35,7 @@ export default function CustomDatePicker() {
         selected={selectedDate}
         // onSelect={handleDateSelect}
         onChange={(date:Date) => setSelectedDate(date)}
+        maxDate={new Date()}
       />
       <button disabled={disableDayIncrement} onClick={() => handleDateChange(1)}>
         <AiFillCaretRight className="text-4xl text-white"  />

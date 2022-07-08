@@ -112,39 +112,39 @@ function Nav() {
         >
           {() => (
             <div className="md:hidden" id="mobile-menu">
-              <div className="flex flex-col p-2 px-2 pt-3 pb-4 space-y-1 text-4xl text-center sm:px-3">
-                <div className="p-2 mb-4">
+              <div className="flex flex-col p-2 px-2 pt-2 pb-4 space-y-1 text-3xl text-center sm:px-3">
+                <button className="p-2">
                   <Link
                     href="/"
                     className="block font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
                     Track
                   </Link>
-                </div>
-                <div className="p-4">
+                </button>
+                <button className="p-4">
                   <Link
                     href="/dashboard"
                     className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
                   >
                     Dashboard
                   </Link>
-                </div>
-                <div className="p-4">
+                </button>
+                <button className="p-4">
                   <Link
                     href="/profile"
                     className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
                     Profile
                   </Link>
-                </div>
-                <div className="p-4">
+                </button>
+                <button className="p-4">
                   <Link
                     href="/api/auth/logout"
                     className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
                   >
                     Log Out
                   </Link>
-                </div>
+                </button>
               </div>
             </div>
           )}

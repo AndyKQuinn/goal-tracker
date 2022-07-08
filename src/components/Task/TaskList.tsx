@@ -44,14 +44,15 @@ export function UserTaskList(props: IUserTaskList) {
     // index,
     taskId
   } = props;
-
-  const today = new Date()
+  const now = new Date()
 
   const [ isDisabled, toggleIsDisabled ] = useState(false)
   const [ isChecked, setIsChecked ] = useState(false)
   const [ taskEntryId, setTaskEntryId ] = useState("")
   const { data: taskData } = trpc.useQuery(['tasks.byId', { id: taskId }])
-  const { data: taskEntriesData = [] } = trpc.useQuery(['taskEntry.byTaskId', { id: taskId }])
+  const { data: taskEntriesData = [] } = trpc.useQuery(['taskEntry.byTaskId', { 
+    id: taskId,
+  }])
 
   const utils = trpc.useContext();
 
@@ -64,7 +65,7 @@ export function UserTaskList(props: IUserTaskList) {
 
   const deleteTaskEntry = trpc.useMutation(['taskEntry.delete'], { 
     async onSuccess() {
-      await utils.invalidateQueries('taskEntry.byTaskId')
+      await utils.invalidateQueries('tasks.byId')
       await utils.invalidateQueries(['taskEntry.byTaskId']);
     },
   })
@@ -89,8 +90,8 @@ export function UserTaskList(props: IUserTaskList) {
 
     if (!isChecked && (taskEntriesData.length === 0)) {
       const taskEntry = {
-        date: today,
-        updatedAt: today,
+        date: now,
+        updatedAt: now,
         taskId: updatedTask.id,
       // rating: 3,
       // duration: figureOutLater,
@@ -109,10 +110,35 @@ export function UserTaskList(props: IUserTaskList) {
     }
   }
 
+  function checkForTodayEntry(entries: any) {
+    const today = now.toLocaleDateString()
+
+    for (let i = 0; i < entries.length; i++) {
+      const entryDate = entries[i].date.toLocaleDateString();
+      const isEqual = entryDate === today
+      if (isEqual) return true
+    }
+
+    return false
+  }
+
   async function handleChange() {
     toggleIsDisabled(true)
-    await updateTaskEntry()
+    
+    // TODO: refine this into a query for quicker processing
+    const exists = checkForTodayEntry(taskEntriesData)
+    
+    {!exists ? (
+      console.log("Exists!")
+      // check number against quantity & cadence values
+    ) : (
+      // no entries at all
+      console.log("Done checking if it exists...")
+    )}
+    
+    await updateTaskEntry(),
     setIsChecked(!isChecked)
+
     toggleIsDisabled(false)
   }
 
