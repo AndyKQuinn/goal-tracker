@@ -11,6 +11,7 @@ import { AppRouter } from '~/server/routers/_app';
 import { SSRContext } from '~/utils/trpc';
 import { UserProvider } from '@auth0/nextjs-auth0';
 import { ThemeProvider } from '@material-tailwind/react';
+import { Toaster } from 'react-hot-toast';
 import 'tailwindcss/tailwind.css';
 import '../styles/globals.css';
 import '../styles/components.css';
@@ -27,6 +28,7 @@ const MyApp = (({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout =
     Component.getLayout ?? ((page) => (
       <UserProvider>
+        <Toaster />
         <DefaultLayout>{page}</DefaultLayout>
       </UserProvider>
     ));

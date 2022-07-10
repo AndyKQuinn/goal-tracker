@@ -9,7 +9,6 @@ import { IoIosAddCircle, IoIosAddCircleOutline } from 'react-icons/io'
 import UserTaskList from '~/components/Task/UserTaskList'
 import DatePicker from '~/components/shared/DatePicker'
 import ConfirmDialog from '~/components/shared/ConfirmDialog'
-import { Button } from "@material-tailwind/react"
 
 export default function UserGoalsWithTasks() {
   const today = new Date()
@@ -38,7 +37,6 @@ export default function UserGoalsWithTasks() {
   }
   
   function handleConfirmDialog(id: string) {
-    console.log("Handling Confirm Dialog for ID: ", id)
     deleteGoal.mutateAsync({ id: id })
   }
   
@@ -129,18 +127,6 @@ export default function UserGoalsWithTasks() {
             </div>
             {showGoalActions && (
               <div className="flex justify-end">
-                {/* <button
-                  className="m-1 text-white bg-purple-600 btn"
-                  onClick={() => Route.push(`/goals/editGoal`)}
-                >
-                  Edit
-                </button> */}
-                {/* <button
-                  className="p-1 m-1 text-3xl text-red-800"
-                  onClick={() => }
-                >
-                  <AiFillDelete />
-                </button> */}
                 <button onClick={() => setOpenConfirmDialog(true)} className="p-1 m-1 text-3xl text-red-800">
                   <AiFillDelete />
                 </button>

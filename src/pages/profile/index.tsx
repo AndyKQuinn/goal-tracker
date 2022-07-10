@@ -21,7 +21,7 @@ export default function Profile() {
       <div className="p-2 m-2 font-serif text-4xl tracking-wider text-center text-white border-b-4 border-b-purple-900">
         Profile
       </div>
-      <div className="p-2 pl-4 text-2xl text-center">
+      <div className="p-2 text-2xl text-center">
         <div className="p-2 mb-2 text-white">
           NickName
         </div>
