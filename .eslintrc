@@ -24,7 +24,7 @@
       "rules": {
         // "@typescript-eslint/no-unused-vars": "off"
         "semi": "off",
-        "prettier/prettier": "off"
+        "prettier/prettier": "off",
       }
     }
   ],

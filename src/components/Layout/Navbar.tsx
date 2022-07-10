@@ -4,57 +4,34 @@ import { useRouter } from 'next/router';
 import { Transition } from '@headlessui/react';
 import { GiQueenCrown } from 'react-icons/gi';
 
-function Nav() {
+import { useUser } from '@auth0/nextjs-auth0'
+
+export default function Nav() {
   const router = useRouter();
-  router?.events?.on('routeChangeStart', () => setIsOpen(false))
-  
   const [isOpen, setIsOpen] = useState(false);
-  
+  router?.events?.on('routeChangeStart', () => setIsOpen(false))
+
+  const { user } = useUser()
+  console.log("User: ", user)
+
   return (
-    <div>
-      <nav className="text-white from-purple-600 bg-gradient-to-r to-purple-900">
-        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center">
-              <div className="flex-shrink-0">
-                <Link href="/">
-                  <a>
-                    <GiQueenCrown 
-                      className="text-5xl"
-                    />
-                  </a>
-                </Link>
-              </div>
-              <div className="hidden md:block">
-                <div className="flex items-baseline ml-10 text-2xl tracking-wider space-x-7">
-                  <Link
-                    href="/"
-                    className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                  >
-                    Track
-                  </Link>
-                  <Link
-                    href="/dashboard"
-                    className="px-3 py-2 text-sm font-medium rounded-md hover:bg-gray-700"
-                  >
-                    Dashboard
-                  </Link>
-                  <Link
-                    href="/profile"
-                    className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                  >
-                    Profile
-                  </Link>
-                  <Link
-                    href="/api/auth/logout"
-                    className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                  >
-                    Logout
-                  </Link>
-                </div>
-              </div>
+    <nav className="text-white from-purple-600 bg-gradient-to-r to-purple-900">
+      <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          <div className="flex items-center">
+            <div className="flex-shrink-0">
+              <Link href="/">
+                <a>
+                  <GiQueenCrown 
+                    className="text-5xl"
+                  />
+                </a>
+              </Link>
             </div>
-            <div className="flex -mr-2 md:hidden">
+            {user && <DesktopLinks />}
+          </div>
+          <div className="flex -mr-2 md:hidden">
+            {user && (
               <button
                 onClick={() => setIsOpen(!isOpen)}
                 type="button"
@@ -97,74 +74,102 @@ function Nav() {
                   </svg>
                 )}
               </button>
-            </div>
+            )}
           </div>
         </div>
-
-        <Transition
-          show={isOpen}
-          enter="transition ease-out duration-100 transform"
-          enterFrom="opacity-0 scale-95"
-          enterTo="opacity-100 scale-100"
-          leave="transition ease-in duration-75 transform"
-          leaveFrom="opacity-100 scale-100"
-          leaveTo="opacity-0 scale-95"
-        >
-          {() => (
-            <div className="md:hidden" id="mobile-menu">
-              <div className="flex flex-col p-2 px-2 pt-2 pb-4 space-y-1 text-3xl text-center sm:px-3">
-                <button className="p-2">
-                  <Link
-                    href="/"
-                    className="block font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                  >
-                    Track
-                  </Link>
-                </button>
-                <button className="p-4">
-                  <Link
-                    href="/dashboard"
-                    className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
-                  >
-                    Dashboard
-                  </Link>
-                </button>
-                <button className="p-4">
-                  <Link
-                    href="/profile"
-                    className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                  >
-                    Profile
-                  </Link>
-                </button>
-                <button className="p-4">
-                  <Link
-                    href="/api/auth/logout"
-                    className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
-                  >
-                    Log Out
-                  </Link>
-                </button>
-              </div>
-            </div>
-          )}
-        </Transition>
-      </nav>
-
-      {/* <header className="bg-white shadow">
-        <div className="px-4 py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-        </div>
-      </header>
-      <main>
-        <div className="py-6 mx-auto max-w-7xl sm:px-6 lg:px-8">
-          <div className="px-4 py-6 sm:px-0">
-            <div className="border-4 border-gray-200 border-dashed rounded-lg h-96"></div>
-          </div>
-        </div>
-      </main> */}
-    </div>
+      </div>
+      <MobileView open={isOpen} />
+    </nav>
   );
 }
 
-export default Nav;
+interface IMobileView {
+  open: boolean
+}
+
+function MobileView(props: IMobileView) {
+  const { open } = props
+  return (
+    <Transition
+      show={open}
+      enter="transition ease-out duration-100 transform"
+      enterFrom="opacity-0 scale-95"
+      enterTo="opacity-100 scale-100"
+      leave="transition ease-in duration-75 transform"
+      leaveFrom="opacity-100 scale-100"
+      leaveTo="opacity-0 scale-95"
+    >
+    {() => (
+      <div className="md:hidden" id="mobile-menu">
+        <div className="flex flex-col p-2 px-2 pt-2 pb-4 space-y-1 text-3xl text-center sm:px-3">
+          <button className="p-2">
+            <Link
+              href="/"
+              className="block font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+            >
+              Track
+            </Link>
+          </button>
+          <button className="p-4">
+            <Link
+              href="/dashboard"
+              className="block px-3 py-2 text-base font-medium text-white rounded-md hover:bg-gray-700"
+            >
+              Dashboard
+            </Link>
+          </button>
+          <button className="p-4">
+            <Link
+              href="/profile"
+              className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+            >
+              Profile
+            </Link>
+          </button>
+          <button className="p-4">
+            <Link
+              href="/api/auth/logout"
+              className="block px-3 py-2 text-base font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+            >
+              Log Out
+            </Link>
+          </button>
+        </div>
+      </div>
+    )}
+  </Transition>
+  )
+}
+
+function DesktopLinks() {
+  return (
+    <div className="hidden md:block">
+      <div className="flex items-baseline ml-10 text-2xl tracking-wider space-x-7">
+        <Link
+          href="/"
+          className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+        >
+          Track
+        </Link>
+        <Link
+          href="/dashboard"
+          className="px-3 py-2 text-sm font-medium rounded-md hover:bg-gray-700"
+        >
+          Dashboard
+        </Link>
+        <Link
+          href="/profile"
+          className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+        >
+          Profile
+        </Link>
+        <Link
+          href="/api/auth/logout"
+          className="px-3 py-2 text-sm font-medium text-gray-300 rounded-md hover:bg-gray-700 hover:text-white"
+        >
+          Logout
+        </Link>
+      </div>
+    </div>
+  )
+}

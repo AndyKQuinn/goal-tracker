@@ -20,8 +20,6 @@ export default function UserTaskList(props: IUserTaskList) {
     id: taskId,
   }])
 
-  console.log("Entries: ", taskEntriesData)
-
   const addTaskEntry = trpc.useMutation('taskEntry.add', { 
     onSuccess() {
       utils.invalidateQueries(['tasks.byId']);
@@ -40,12 +38,10 @@ export default function UserTaskList(props: IUserTaskList) {
       for (let i = 0; i < taskEntriesData.length; i++) {
         const entry = taskEntriesData[i]
         if (entry?.date.toLocaleDateString() === selectedDate.toLocaleDateString()) {
-          console.log("True: ", entry?.date.toLocaleDateString(), " | ", selectedDate.toLocaleDateString())
           setIsChecked(true)
           setTaskEntryId(entry.id)
           break
         } else {
-          console.log("False: ", entry?.date.toLocaleDateString(), " | ", selectedDate.toLocaleDateString())
           setIsChecked(false)
         }
       }

@@ -1,4 +1,3 @@
-// import { trpc } from '../../utils/trpc';
 import { useUser } from '@auth0/nextjs-auth0';
 import Image from 'next/image';
 import profilePic from '../../images/profile.jpg'
@@ -8,18 +7,15 @@ export default function Profile() {
   const {
     nickname,
     name,
-    // picture,
     email,
     sub
   } = user || {
     nickname: '',
     name: '',
-    picture: '',
     email: '',
     sub: '',
   }
 
-  console.log("User: ", user)
   return (
     <>
       <div className="p-2 m-2 font-serif text-4xl tracking-wider text-center text-white border-b-4 border-b-purple-900">
