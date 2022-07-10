@@ -8,14 +8,18 @@ import { AiFillDelete, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'
 import { IoIosAddCircle, IoIosAddCircleOutline } from 'react-icons/io'
 import UserTaskList from '~/components/Task/UserTaskList'
 import DatePicker from '~/components/shared/DatePicker'
+import ConfirmDialog from '~/components/shared/ConfirmDialog'
+import { Button } from "@material-tailwind/react"
 
 export default function UserGoalsWithTasks() {
   const today = new Date()
   const utils = trpc.useContext();
+
   const [ showDatePicker, toggleShowDatePicker ] = useState(false)
   const [ showGoalActions, toggleShowGoalActions] = useState(false)
   const [ showTrackActions, toggleShowTrackActions ] = useState(false)
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [ openConfirmDialog, setOpenConfirmDialog ] = useState(false)
+  const [ selectedDate, setSelectedDate ] = useState(today)
  
   const { user } = useUser();
   const id = user?.sub || ""
@@ -29,20 +33,16 @@ export default function UserGoalsWithTasks() {
     },
   })
 
-  // useEffect(() => {
-  //   if (goalsQuery?.data.length > 0) {
-  //     for (const { id } of goalsQuery.data ?? []) {
-  //       utils.prefetchQuery(['goals.byGoalId', { id }]);
-  //     }
-  //   }
-  // }, [goalsQuery, utils])
-
   function handleDateChange(date: Date) {
-    console.log("New Date: ", date)
     setSelectedDate(date)
   }
   
-  if (goalsQuery.status === "loading") return <div>Loading...</div>
+  function handleConfirmDialog(id: string) {
+    console.log("Handling Confirm Dialog for ID: ", id)
+    deleteGoal.mutateAsync({ id: id })
+  }
+  
+  if (goalsQuery.status === "loading") return <div className="text-white">Loading...</div>
 
   return (
     <div className="p-1 mt-1">
@@ -60,19 +60,21 @@ export default function UserGoalsWithTasks() {
             onClick={() => toggleShowDatePicker(!showDatePicker)}
           />
         )}
-        {showTrackActions ? (
-          <IoIosAddCircleOutline
-            className="mt-1 mr-1 text-purple-600 bg-white rounded-3xl"
-            size="2.5rem"
-            onClick={() => toggleShowTrackActions(!showTrackActions)}
+        <div className={goals.length === 0 && !showTrackActions ? "flex flex-row animate-bounce" : "flex flex-row"}>
+          {showTrackActions ? (
+            <IoIosAddCircleOutline
+              className="mt-1 mr-1 text-purple-600 bg-white rounded-3xl"
+              size="2.5rem"
+              onClick={() => toggleShowTrackActions(!showTrackActions)}
+              />
+          ) : (
+            <IoIosAddCircle
+              className="mt-1 mr-1 text-purple-600 bg-white rounded-3xl"
+              size="2.5rem"
+              onClick={() => toggleShowTrackActions(!showTrackActions)}
             />
-        ) : (
-          <IoIosAddCircle
-            className="mt-1 mr-1 text-purple-600 bg-white rounded-3xl"
-            size="2.5rem"
-            onClick={() => toggleShowTrackActions(!showTrackActions)}
-          />
-        )}
+          )}
+        </div>
       </div>
       {showDatePicker && (
         <>
@@ -116,11 +118,11 @@ export default function UserGoalsWithTasks() {
               <button className="p-2 font-serif text-xl text-white" onClick={() => toggleShowGoalActions(!showGoalActions)}>
                 {showGoalActions ? (
                   <AiOutlineUp
-                    className="p-1 m-1 text-2xl text-white bg-purple-600 rounded-2xl"
+                    className="p-1 m-1 text-3xl text-white bg-purple-600 rounded-2xl"
                   />
                 ) : (
                   <AiOutlineDown
-                    className="p-1 m-1 text-2xl text-white bg-purple-600 rounded-2xl"
+                    className="p-1 m-1 text-3xl text-white bg-purple-600 rounded-2xl"
                   />
                 )}
               </button>
@@ -133,12 +135,21 @@ export default function UserGoalsWithTasks() {
                 >
                   Edit
                 </button> */}
-                <button
-                  className="p-1 m-1 text-xl text-red-800"
-                  onClick={() => deleteGoal.mutateAsync({ id: goal.id })}
+                {/* <button
+                  className="p-1 m-1 text-3xl text-red-800"
+                  onClick={() => }
                 >
                   <AiFillDelete />
+                </button> */}
+                <button onClick={() => setOpenConfirmDialog(true)} className="p-1 m-1 text-3xl text-red-800">
+                  <AiFillDelete />
                 </button>
+                <ConfirmDialog
+                  open={openConfirmDialog}
+                  onOpen={() => setOpenConfirmDialog(!openConfirmDialog)}
+                  onConfirm={handleConfirmDialog}
+                  goal={goal}
+                  />
               </div>
             )}
           </article>

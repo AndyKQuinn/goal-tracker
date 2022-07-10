@@ -74,6 +74,12 @@ Go to [dashboard.render.com/blueprints](https://dashboard.render.com/blueprints)
   </tbody>
 </table>
 
+## Current Work In Progress
+
+- Tutorials
+- Protect routes (User/Role/Admin context)
+- Game component / scaffolding
+
 ---
 
 Author: Andy Quinn (Guice)

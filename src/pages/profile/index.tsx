@@ -48,7 +48,7 @@ export default function Profile() {
           Image
         </div>
         <div className="text-center">
-          <Image height={200} width={200} src={profilePic} alt="Profile Pic" />
+          <Image height={75} width={75} src={profilePic} alt="Profile Pic" />
         </div>
       </div>
     </>

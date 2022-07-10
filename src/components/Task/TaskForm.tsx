@@ -57,8 +57,8 @@ export default function TaskForm() {
   };
 
   return (
-    <div className="p-2 mx-1 text-center border-2 rounded-md">
-      <div className="p-1 mb-1 text-xl text-white bg-purple-600 border-2 rounded-md">
+    <div className="p-2 mx-1 text-center rounded-md">
+      <div className="p-2 m-2 font-serif text-4xl tracking-wider text-center text-white border-b-4 border-b-purple-900">
         Add Tasks
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -69,7 +69,6 @@ export default function TaskForm() {
               className="block w-full form-select"
               {...register("goalId")}
             >
-              <option key="default" value="default">Select one...</option>
               {goalsQuery.data?.map((goal) => (
                 <option key={goal.id} value={goal.id}>{goal.title}</option>
               ))}

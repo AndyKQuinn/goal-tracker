@@ -12,7 +12,6 @@ export default function Nav() {
   router?.events?.on('routeChangeStart', () => setIsOpen(false))
 
   const { user } = useUser()
-  console.log("User: ", user)
 
   return (
     <nav className="text-white from-purple-600 bg-gradient-to-r to-purple-900">
