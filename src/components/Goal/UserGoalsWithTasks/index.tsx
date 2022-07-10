@@ -6,14 +6,16 @@ import Router from 'next/router';
 import { BsInfoCircle, BsCalendarDate } from 'react-icons/bs'
 import { AiFillDelete, AiOutlineDown, AiOutlineUp } from 'react-icons/ai'
 import { IoIosAddCircle, IoIosAddCircleOutline } from 'react-icons/io'
-import { UserTaskList } from '~/components/Task/TaskList'
+import UserTaskList from '~/components/Task/UserTaskList'
 import DatePicker from '~/components/shared/DatePicker'
 
 export default function UserGoalsWithTasks() {
+  const today = new Date()
   const utils = trpc.useContext();
   const [ showDatePicker, toggleShowDatePicker ] = useState(false)
   const [ showGoalActions, toggleShowGoalActions] = useState(false)
   const [ showTrackActions, toggleShowTrackActions ] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(today);
  
   const { user } = useUser();
   const id = user?.sub || ""
@@ -34,6 +36,11 @@ export default function UserGoalsWithTasks() {
   //     }
   //   }
   // }, [goalsQuery, utils])
+
+  function handleDateChange(date: Date) {
+    console.log("New Date: ", date)
+    setSelectedDate(date)
+  }
   
   if (goalsQuery.status === "loading") return <div>Loading...</div>
 
@@ -70,7 +77,7 @@ export default function UserGoalsWithTasks() {
       {showDatePicker && (
         <>
           <div className="text-2xl text-center text-white">Switch Date</div>
-          <DatePicker />
+          <DatePicker selectedDate={selectedDate} onDateChange={handleDateChange} today={today} />
         </>
       )}
       {showTrackActions && (
@@ -102,8 +109,8 @@ export default function UserGoalsWithTasks() {
                 </button>
               </Link>
             </div>
-            {goal?.tasks.map((task, index: number) => {
-              return <UserTaskList key={task.id} index={index} taskId={task.id} />
+            {goal?.tasks.map((task) => {
+              return <UserTaskList key={task.id} taskId={task.id} selectedDate={selectedDate} />
             })}
             <div className="flex justify-end">
               <button className="p-2 font-serif text-xl text-white" onClick={() => toggleShowGoalActions(!showGoalActions)}>

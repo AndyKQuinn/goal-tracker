@@ -1,20 +1,22 @@
-import { useMemo, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import DatePicker from "react-datepicker";
 import { AiFillCaretLeft, AiFillCaretRight } from 'react-icons/ai';
-import { addDays } from 'date-fns'
-
+import { addDays } from 'date-fns';
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function CustomDatePicker() {
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [disableDayIncrement, setDisableDayIncrement] = useState(false)
+interface IDatePicker {
+  selectedDate: Date
+  onDateChange: any
+  today: Date
+}
 
-  // const today = useMemo(new Date);
-  const today = new Date;
+export default function CustomDatePicker(props: IDatePicker) {
+  const { selectedDate, onDateChange, today } = props
+  const [disableDayIncrement, setDisableDayIncrement] = useState(false)
 
   const handleDateChange = (adjAmount: number) => {
     const newDate = addDays(selectedDate, adjAmount)
-    setSelectedDate(newDate)
+    onDateChange(newDate)
   }
 
   useEffect(() => {
@@ -33,8 +35,7 @@ export default function CustomDatePicker() {
       <DatePicker
         className="text-2xl text-center"
         selected={selectedDate}
-        // onSelect={handleDateSelect}
-        onChange={(date:Date) => setSelectedDate(date)}
+        onChange={(date:Date) => onDateChange(date)}
         maxDate={new Date()}
       />
       <button disabled={disableDayIncrement} onClick={() => handleDateChange(1)}>
