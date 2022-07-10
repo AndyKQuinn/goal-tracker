@@ -31,7 +31,7 @@ export default function TaskForm() {
       description: "",
       quantity: 1,
       cadence: "daily",
-      // goalId: "Select a goal",
+      goalId: "",
       taskEntities: [],
     }
   });

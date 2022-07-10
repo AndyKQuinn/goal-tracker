@@ -25,7 +25,7 @@ export default function GoalForm() {
     try {
       await addGoal.mutateAsync(input);
       reset();
-      Router.push("/dashboard")
+      Router.push("/")
     } catch {
       (error: any) => console.log(error);
     }

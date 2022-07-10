@@ -25,7 +25,7 @@ export const goalRouter = createRouter()
   .mutation('add', {
     input: z.object({
       id: z.string().uuid().optional(),
-      title: z.string().min(1).max(32),
+      title: z.string().min(1).max(40),
       description: z.string(),
       active: z.boolean(),
       createdBy: z.string().min(1),
