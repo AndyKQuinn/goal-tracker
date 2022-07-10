@@ -2,15 +2,15 @@ import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
 import { trpc } from '~/utils/trpc';
 import Router from 'next/router';
+import toast from 'react-hot-toast';
 
 export default function GoalForm() {
   const { user } = useUser();
   const { sub } = user || { sub: '' };
   
-  const utils = trpc.useContext();
   const addGoal = trpc.useMutation('goals.add', {
     async onSuccess() {
-      await utils.invalidateQueries(['goals.all']);
+      toast.success('Goal created successfully')
     },
   });
 
@@ -32,8 +32,8 @@ export default function GoalForm() {
   };
 
   return (
-    <div className="p-2 m-1 text-center border-2 rounded-md">
-      <div className="p-1 mb-1 text-xl text-white bg-purple-600 border-2 rounded-md">
+    <div className="p-2 m-1 text-center rounded-md">
+      <div className="p-2 m-2 font-serif text-4xl tracking-wider text-center text-white border-b-4 border-b-purple-900">
         Add Goal
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -43,6 +43,7 @@ export default function GoalForm() {
               className="block w-full text-black form-input"
               {...register("title")}
               placeholder="Goal Title"
+              required
             />
           </div>
         </div>
@@ -57,7 +58,7 @@ export default function GoalForm() {
         </div>       
         <input className="m-1 mt-4 text-white bg-purple-600 btn" type="submit" />
         {addGoal.error && (
-          <p style={{ color: 'red' }}>{addGoal.error.message}</p>
+          toast.error(addGoal.error.message)
         )}
       </form>
     </div>

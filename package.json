@@ -52,6 +52,7 @@
     "react-datepicker": "^4.8.0",
     "react-dom": "^18.1.0",
     "react-hook-form": "^7.32.2",
+    "react-hot-toast": "^2.2.0",
     "react-icons": "^4.4.0",
     "react-query": "^3.37.0",
     "start-server-and-test": "^1.12.0",

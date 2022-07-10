@@ -1,8 +1,8 @@
-// import { useState } from 'react';
 import { trpc } from '../../utils/trpc';
 import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
 import Router from 'next/router';
+import toast from 'react-hot-toast';
 
 type FormValues = {
   title: string,
@@ -19,9 +19,10 @@ export default function TaskForm() {
   const goalsQuery = trpc.useQuery(['goals.byUserId', { createdBy: id }])
   
   const utils = trpc.useContext();
-  const addGoal = trpc.useMutation('tasks.add', {
-    async onSuccess() {
-      await utils.invalidateQueries(['tasks.all']);
+  const addTask = trpc.useMutation('tasks.add', {
+    onSuccess() {
+      toast.success('Task added successfully')
+      utils.invalidateQueries(['tasks.all']);
     },
   });
 
@@ -36,29 +37,23 @@ export default function TaskForm() {
     }
   });
 
-  // const [ showOptions, setShowOptions ] = useState(false);
-  // function toggleShowOptions(e: any) {
-  //   e.preventDefault();
-  //   setShowOptions(!showOptions)
-  // }
-
   const onSubmit = async (data: any) => {
     const input = data;
     input.createdBy = id
     input.active = true
 
     try {
-      await addGoal.mutateAsync(input);
+      addTask.mutateAsync(input);
       reset();
       Router.push("/")
     } catch {
-      (error: any) => console.log(error);
+      (error: any) => toast.error(error);
     }
   };
 
   return (
-    <div className="p-2 mx-1 text-center border-2 rounded-md">
-      <div className="p-1 mb-1 text-xl text-white bg-purple-600 border-2 rounded-md">
+    <div className="p-2 mx-1 text-center rounded-md">
+      <div className="p-2 m-2 font-serif text-4xl tracking-wider text-center text-white border-b-4 border-b-purple-900">
         Add Tasks
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -68,8 +63,8 @@ export default function TaskForm() {
             <select
               className="block w-full form-select"
               {...register("goalId")}
+              required
             >
-              <option key="default" value="default">Select one...</option>
               {goalsQuery.data?.map((goal) => (
                 <option key={goal.id} value={goal.id}>{goal.title}</option>
               ))}
@@ -81,6 +76,7 @@ export default function TaskForm() {
                 className="block w-full form-input"
                 placeholder="Task Title"
                 {...register("title")}
+                required
               />
             </div>
           </div>
@@ -95,44 +91,10 @@ export default function TaskForm() {
           </div>
         </div>
         <input className="m-1 mt-4 text-white bg-purple-600 btn" type="submit" />
-        {addGoal.error && (
-          <p style={{ color: 'red' }}>{addGoal.error.message}</p>
+        {addTask.error && (
+          toast.error(addTask.error.message)
         )}
       </form>
     </div>
   );
 }
-
-// saving until MVP functionaltiy is working
-// as i love to complicate the simple...
-
-{/* <div className="mt-4 text-xs text-end">
-  <button
-    className="p-1 text-white bg-gray-600 w-36"
-    onClick={(e: any) => toggleShowOptions(e)}>
-    {showOptions ? 'Hide More Options' : 'Show More Options'}
-  </button>
-</div>
-{showOptions && (
-  <>
-    <label className="block mt-4">
-      <select
-        className="block w-full form-select"
-        {...register("cadence")}
-      >
-        <option value="daily" id="daily">Daily</option>
-        <option value="weekly" id="weekly">Weekly</option>
-      </select>
-    </label>
-    <label className="block mt-4">
-      <select
-        className="block w-full form-select"
-        {...register("quantity")}
-      >
-        <option value="1" id="1">1</option>
-        <option value="2" id="2">2</option>
-        <option value="3" id="3">3</option>
-      </select>
-    </label>
-  </>
-)} */}
