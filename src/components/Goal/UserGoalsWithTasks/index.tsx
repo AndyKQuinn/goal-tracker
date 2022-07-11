@@ -39,25 +39,72 @@ export default function UserGoalsWithTasks() {
   function handleConfirmDialog(id: string) {
     deleteGoal.mutateAsync({ id: id })
   }
+
+  function TrackActions() {
+    return (
+      <div className="absolute p-8 mt-2 mr-2 border-4 rounded-lg bg-grey-800 right-12">
+        <div className="flex flex-col">
+          <button
+            className="p-4 mb-6 text-2xl text-center text-white bg-purple-600 border-4 border-white shadow-2xl right-12 rounded-xl"
+            onClick={() => Router.push("/goals/createGoal")}
+          >
+            Create Goal
+          </button>
+          <button
+            className="p-4 text-2xl text-center text-white bg-purple-600 border-4 border-white shadow-2xl right-12 rounded-xl"
+            onClick={() => Router.push("/tasks/createTask")}
+          >
+            Add Task
+          </button>
+        </div>
+      </div>
+    )
+  }
+
+  function GoalActionToggle() {
+    return (
+      <div className="flex justify-end">
+        <button className="p-2 font-serif text-xl text-white" onClick={() => toggleShowGoalActions(!showGoalActions)}>
+          {showGoalActions ? (
+            <AiOutlineUp
+              className="p-1 m-1 text-3xl text-white bg-purple-600 rounded-2xl"
+            />
+          ) : (
+            <AiOutlineDown
+              className="p-1 m-1 text-3xl text-white bg-purple-600 rounded-2xl"
+            />
+          )}
+        </button>
+      </div>
+    )
+  }
+
+  function GoalActions(goal: any) {
+    return (
+      <div className="flex justify-end">
+        <button onClick={() => setOpenConfirmDialog(true)} className="p-1 m-1 text-3xl text-red-800">
+          <AiFillDelete />
+        </button>
+        <ConfirmDialog
+          open={openConfirmDialog}
+          onOpen={() => setOpenConfirmDialog(!openConfirmDialog)}
+          onConfirm={handleConfirmDialog}
+          goal={goal}
+          />
+      </div>
+    )
+  }
   
   if (goalsQuery.status === "loading") return <div className="text-white">Loading...</div>
 
   return (
     <div className="p-1 mt-1">
       <div className="flex justify-between mr-1">
-        {showDatePicker ? (
-          <BsCalendarDate
-            className="p-1 mt-1 mr-1 text-purple-600 bg-white rounded-md"
-            size="2.5rem"
-            onClick={() => toggleShowDatePicker(!showDatePicker)}
-          />
-        ) : (
-          <BsCalendarDate
-            className="p-1 mt-1 mr-1 text-white bg-purple-600 rounded-md"
-            size="2.5rem"
-            onClick={() => toggleShowDatePicker(!showDatePicker)}
-          />
-        )}
+        <BsCalendarDate
+          className={showDatePicker ? "p-1 mt-1 mr-1 text-purple-600 bg-white rounded-md" : "p-1 mt-1 mr-1 text-white bg-purple-600 rounded-md"}
+          size="2.5rem"
+          onClick={() => toggleShowDatePicker(!showDatePicker)}
+        />
         <div className={goals.length === 0 && !showTrackActions ? "flex flex-row animate-bounce" : "flex flex-row"}>
           {showTrackActions ? (
             <IoIosAddCircleOutline
@@ -80,24 +127,7 @@ export default function UserGoalsWithTasks() {
           <DatePicker selectedDate={selectedDate} onDateChange={handleDateChange} today={today} />
         </>
       )}
-      {showTrackActions && (
-        <div className="absolute p-8 mt-2 mr-2 border-4 rounded-lg bg-grey-800 right-12">
-          <div className="flex flex-col">
-            <button
-              className="p-4 mb-6 text-2xl text-center text-white bg-purple-600 border-4 border-white shadow-2xl right-12 rounded-xl"
-              onClick={() => Router.push("/goals/createGoal")}
-            >
-              Create Goal
-            </button>
-            <button
-              className="p-4 text-2xl text-center text-white bg-purple-600 border-4 border-white shadow-2xl right-12 rounded-xl"
-              onClick={() => Router.push("/tasks/createTask")}
-            >
-              Add Task
-            </button>
-          </div>
-        </div>
-      )}
+      {showTrackActions && <TrackActions />}
       {goals?.map((goal) => {
         return (
           <article className="p-1 mt-4 border-2 border-purple-200 rounded-md shadow-md" key={goal.id}>
@@ -109,35 +139,9 @@ export default function UserGoalsWithTasks() {
                 </button>
               </Link>
             </div>
-            {goal?.tasks.map((task) => {
-              return <UserTaskList key={task.id} taskId={task.id} selectedDate={selectedDate} />
-            })}
-            <div className="flex justify-end">
-              <button className="p-2 font-serif text-xl text-white" onClick={() => toggleShowGoalActions(!showGoalActions)}>
-                {showGoalActions ? (
-                  <AiOutlineUp
-                    className="p-1 m-1 text-3xl text-white bg-purple-600 rounded-2xl"
-                  />
-                ) : (
-                  <AiOutlineDown
-                    className="p-1 m-1 text-3xl text-white bg-purple-600 rounded-2xl"
-                  />
-                )}
-              </button>
-            </div>
-            {showGoalActions && (
-              <div className="flex justify-end">
-                <button onClick={() => setOpenConfirmDialog(true)} className="p-1 m-1 text-3xl text-red-800">
-                  <AiFillDelete />
-                </button>
-                <ConfirmDialog
-                  open={openConfirmDialog}
-                  onOpen={() => setOpenConfirmDialog(!openConfirmDialog)}
-                  onConfirm={handleConfirmDialog}
-                  goal={goal}
-                  />
-              </div>
-            )}
+            {goal?.tasks.map((task) => <UserTaskList key={task.id} taskId={task.id} selectedDate={selectedDate} /> )}
+            <GoalActionToggle />
+            {showGoalActions && <GoalActions goal={goal} />}
           </article>
         )
       })}

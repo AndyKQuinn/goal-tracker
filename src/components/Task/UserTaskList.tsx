@@ -16,7 +16,7 @@ export default function UserTaskList(props: IUserTaskList) {
   const [ isChecked, setIsChecked ] = useState(false)
   const [ taskEntryId, setTaskEntryId ] = useState("")
   const { data: taskData } = trpc.useQuery(['tasks.byId', { id: taskId }])
-  const { data: taskEntriesData } = trpc.useQuery(['taskEntry.byTaskId', { 
+  const { data: taskEntriesData = [] } = trpc.useQuery(['taskEntry.byTaskId', { 
     id: taskId,
   }])
 
@@ -26,6 +26,7 @@ export default function UserTaskList(props: IUserTaskList) {
       utils.invalidateQueries(['taskEntry.byTaskId']);
     }
   })
+
   const deleteTaskEntry = trpc.useMutation(['taskEntry.delete'], { 
     onSuccess() {
       utils.invalidateQueries(['tasks.byId']);
@@ -33,11 +34,12 @@ export default function UserTaskList(props: IUserTaskList) {
     }
   })
 
+  // check which day is selected and render switches accordingly
   useEffect(() => {
     if (taskEntriesData) {
       for (let i = 0; i < taskEntriesData.length; i++) {
         const entry = taskEntriesData[i]
-        if (entry?.date.toLocaleDateString() === selectedDate.toLocaleDateString()) {
+        if (entry?.date.toDateString() === selectedDate.toDateString()) {
           setIsChecked(true)
           setTaskEntryId(entry.id)
           break

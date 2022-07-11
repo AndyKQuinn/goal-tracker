@@ -5,7 +5,6 @@ export default function TasksView() {
   return (
     <div>
       Tasks
-      {/* <TaskList /> */}
       <TaskForm />
     </div>
   )
