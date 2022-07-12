@@ -46,6 +46,7 @@
     "autoprefixer": "10.4.5",
     "clsx": "^1.1.1",
     "date-fns": "^2.28.0",
+    "nes-components": "^0.0.15",
     "next": "^12.1.6",
     "postcss": "^8.4.14",
     "react": "^18.1.0",

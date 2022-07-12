@@ -11,9 +11,6 @@ module.exports = withMT({
     "./src/components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    colors: {
-
-    },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],
       serif: ['Merriweather', 'serif'],
