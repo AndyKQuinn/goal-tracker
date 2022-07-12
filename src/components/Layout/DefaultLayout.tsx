@@ -15,9 +15,7 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         </Head>
 
         <Navbar />
-        <main
-          className="h-full bg-grey-900"
-        >
+        <main className="h-full bg-grey-900">
           {children}
         </main>
 

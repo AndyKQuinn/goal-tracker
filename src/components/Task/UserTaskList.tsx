@@ -39,6 +39,7 @@ export default function UserTaskList(props: IUserTaskList) {
     if (taskEntriesData) {
       for (let i = 0; i < taskEntriesData.length; i++) {
         const entry = taskEntriesData[i]
+        console.log("Entry: ", entry)
         if (entry?.date.toDateString() === selectedDate.toDateString()) {
           setIsChecked(true)
           setTaskEntryId(entry.id)
@@ -52,6 +53,7 @@ export default function UserTaskList(props: IUserTaskList) {
 
   async function handleChange() {
     if (isChecked) {
+      console.log("EntryID: ", taskEntryId)
       deleteTaskEntry.mutateAsync({ id: taskEntryId })
     } else {
       const entry = {
@@ -66,7 +68,7 @@ export default function UserTaskList(props: IUserTaskList) {
   if (!taskData) return <div>Loading...</div>
 
   return (
-    <div key={taskData.id} className="flex justify-between mt-2 ml-4 text-2xl bg-gray-100 border-2 rounded-md form-input form-control">
+    <div key={taskData.id} className="flex justify-between mt-2 ml-4 text-2xl border-2 rounded-md bg-grey-100 form-input form-control">
       {taskData.title}
       {isChecked ? (
         <button>

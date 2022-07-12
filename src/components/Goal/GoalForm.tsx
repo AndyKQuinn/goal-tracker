@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { useUser } from '@auth0/nextjs-auth0';
 import { trpc } from '~/utils/trpc';
@@ -6,8 +7,15 @@ import toast from 'react-hot-toast';
 
 export default function GoalForm() {
   const { user } = useUser();
-  const { sub } = user || { sub: '' };
+  const [ userId, setUserId ] = useState("")
   
+  useEffect(() => {
+    user?.sub && (
+      console.log("Sub: ", user.sub),
+      setUserId(user.sub)
+    )
+  }, [user])
+
   const addGoal = trpc.useMutation('goals.add', {
     async onSuccess() {
       toast.success('Goal created successfully')
@@ -18,9 +26,8 @@ export default function GoalForm() {
 
   const onSubmit = async (data: any) => {
     const input = data;
-    
     input.active = true;
-    input.createdBy = sub;
+    input.createdBy = userId
 
     try {
       await addGoal.mutateAsync(input);

@@ -51,12 +51,28 @@ model TaskEntry {
   taskId String?
 }
 
-model User {
-  id            String   @id @default(uuid())
-  preferredName String
-  fullName      String
-  avatarUri     String
-  email         String
-  createdAt     DateTime @default(now())
-  updatedat     DateTime @default(now())
+model GameUser {
+  id          String   @id @default(uuid())
+  userId      String
+  alias       String
+  actionCount Int
+  level       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId String
+}
+
+model Equipment {
+  id        String @id @default(uuid())
+  helmet    String
+  body      String
+  arms      String
+  rightHand String
+  leftHand  String
+  legs      String
+  feet      String
+
+  GameUser GameUser[]
 }
